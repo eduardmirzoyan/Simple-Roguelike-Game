@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d462190985fd440bd86788cddefe2e, type: 3}
+  m_Name: World Generator
+  m_EditorClassIdentifier: 
+  gridWidth: 5
+  gridHeight: 5
+  roomSize: 5
+  numRooms: 8
+  branchChance: 50
+  gapSize: 1
+  hallwaySize: 2
+  playerData: {fileID: 11400000, guid: eb07db2bb5c2d82458802a32ea2a28a3, type: 2}
+  enemyData: {fileID: 11400000, guid: e4fb52bcca24eb94f896454aa42b8f46, type: 2}
+  chestData: {fileID: 11400000, guid: f7193fab2dd21bf4c839d4dc75b739dd, type: 2}
+  vaseData: {fileID: 11400000, guid: e41749ed778f71d478a59a109528d177, type: 2}

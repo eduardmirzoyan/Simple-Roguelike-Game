@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7683af20ec3cb7848927c08a63d4ba3d, type: 3}
+  m_Name: Chest Data
+  m_EditorClassIdentifier: 
+  name: Chest
+  maxHealth: 1
+  currentHealth: 1
+  maxPosture: 0
+  currentPosture: 0
+  canRecoverPosture: 0
+  weapons: []
+  weaponCap: 2
+  idleSprites:
+  - {fileID: -1316564718, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  hitSprite: {fileID: 1489420632, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  deathSprites:
+  - {fileID: -1316564718, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  - {fileID: -1956609964, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  - {fileID: 1528758661, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  - {fileID: 1489420632, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  - {fileID: -1566686024, guid: a319c304b7e7a0c4eaf2fb8f7c5567f9, type: 3}
+  entityRenderer: {fileID: 0}
+  tileData:
+    position: {x: 0, y: 0, z: 0}
+    type: 0
+    entityData: {fileID: 0}
+    weapon: {fileID: 0}
+  worldData:
+    player: {fileID: 0}
+    enemies: []
+    neutrals: []
+  ai: {fileID: 11400000, guid: dd5aaa7e51d161e40bece14b6b6d4039, type: 2}
+  weaponLoot: {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}

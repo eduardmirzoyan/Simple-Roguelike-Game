@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7683af20ec3cb7848927c08a63d4ba3d, type: 3}
+  m_Name: Vase Data
+  m_EditorClassIdentifier: 
+  name: Vase
+  maxHealth: 1
+  currentHealth: 1
+  maxPosture: 0
+  currentPosture: 0
+  canRecoverPosture: 0
+  weapons: []
+  weaponCap: 2
+  idleSprites:
+  - {fileID: -1778124933, guid: b86a9ca7c94853f4c9d442d4ef3db044, type: 3}
+  hitSprite: {fileID: -578672937, guid: b86a9ca7c94853f4c9d442d4ef3db044, type: 3}
+  deathSprites:
+  - {fileID: 1734676958, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  - {fileID: 1627987597, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  - {fileID: 940220355, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  - {fileID: -548317147, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  entityRenderer: {fileID: 0}
+  tileData:
+    position: {x: 0, y: 0, z: 0}
+    type: 0
+    entityData: {fileID: 0}
+    weapon: {fileID: 0}
+  worldData:
+    player: {fileID: 0}
+    enemies: []
+    neutrals: []
+  ai: {fileID: 11400000, guid: dd5aaa7e51d161e40bece14b6b6d4039, type: 2}
+  weaponLoot: {fileID: 0}

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7683af20ec3cb7848927c08a63d4ba3d, type: 3}
+  m_Name: Slime Data
+  m_EditorClassIdentifier: 
+  name: Slime
+  maxHealth: 2
+  currentHealth: 2
+  maxPosture: 2
+  currentPosture: 2
+  canRecoverPosture: 0
+  weapons:
+  - {fileID: 11400000, guid: f447b2950e7aba44bbd0b7fe4cf26c2f, type: 2}
+  weaponCap: 2
+  vision:
+    viewDistance: 1
+    entityData: {fileID: 0}
+  idleSprites:
+  - {fileID: -1092047553, guid: 6bbce40171a7adb41a01d30b91442e8a, type: 3}
+  - {fileID: -223559853, guid: 6bbce40171a7adb41a01d30b91442e8a, type: 3}
+  hitSprite: {fileID: -1795602162, guid: 6bbce40171a7adb41a01d30b91442e8a, type: 3}
+  deathSprites:
+  - {fileID: 1734676958, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  - {fileID: 1627987597, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  - {fileID: 940220355, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  - {fileID: -548317147, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
+  entityRenderer: {fileID: 0}
+  tileData:
+    position: {x: 0, y: 0, z: 0}
+    type: 0
+    entityData: {fileID: 0}
+    weapon: {fileID: 0}
+  worldData:
+    player: {fileID: 0}
+    enemies: []
+    neutrals: []
+  ai: {fileID: 11400000, guid: 73bcb8c3c0e22f44d9f880ac031e8023, type: 2}
+  weaponLoot: {fileID: 0}
