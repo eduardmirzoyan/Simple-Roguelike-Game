@@ -102,7 +102,7 @@ public class PreviewManager : MonoBehaviour
             var weapon = entityData.weapons[weaponIndex];
 
             var worldPositon = selectTilemap.GetCellCenterWorld(position);
-            var damage = weapon.GetTotalDamage(entityData, targetData);
+            var damage = weapon.CalculateDamage(entityData, targetData);
             var color = damage > weapon.damage ? Color.yellow : Color.white;
 
             DamagePreviewUI.instance.Show(damage, color, worldPositon);

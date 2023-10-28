@@ -18,7 +18,7 @@ public abstract class WeaponData : ScriptableObject
     public WeaponRenderer renderer;
     public int cooldownTimer;
 
-    public virtual int GetTotalDamage(EntityData holderData, EntityData targetData)
+    public virtual int CalculateDamage(EntityData holderData, EntityData targetData)
     {
         return damage;
     }

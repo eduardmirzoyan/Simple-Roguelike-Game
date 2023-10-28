@@ -7,7 +7,7 @@ public class SelfNoGuardWeapon : WeaponData
 {
     [SerializeField] private int damageBonus;
 
-    public override int GetTotalDamage(EntityData holderData, EntityData targetData)
+    public override int CalculateDamage(EntityData holderData, EntityData targetData)
     {
         return holderData.currentPosture == 0 ? damage + damageBonus : damage;
     }

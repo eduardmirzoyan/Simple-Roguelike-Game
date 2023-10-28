@@ -17,7 +17,6 @@ MonoBehaviour:
   sprite: {fileID: 0}
   damage: 1
   range: 1
-  cooldown: 2
+  cooldown: 1
   renderer: {fileID: 0}
   cooldownTimer: 0
-  bonusDamage: 0

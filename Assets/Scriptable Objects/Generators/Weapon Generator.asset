@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Weapon Generator
   m_EditorClassIdentifier: 
   possibleWeapons:
+  - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}
   - {fileID: 11400000, guid: 5273bd936b68acb40b9c50a8940dbeee, type: 2}
   - {fileID: 11400000, guid: a55e1b795d1b5cf4abea22bd4c75842e, type: 2}
-  - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}
+  - {fileID: 11400000, guid: 32a98e3f1775907438845c3feb18bcae, type: 2}
   - {fileID: 11400000, guid: 03ad8de442ae1c149838b1853e16e287, type: 2}
   - {fileID: 11400000, guid: bc17c2d51e0702543b99b9f207966090, type: 2}
   - {fileID: 11400000, guid: b6f37a1177511834099488efb2de57b3, type: 2}
-  - {fileID: 11400000, guid: cb61c541d02adb74395b64ef191c6311, type: 2}
+  - {fileID: 11400000, guid: d884a1db2ff805741a24e3142f2c0a91, type: 2}

@@ -20,7 +20,7 @@ MonoBehaviour:
   canRecoverPosture: 0
   weapons:
   - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}
-  - {fileID: 11400000, guid: cb61c541d02adb74395b64ef191c6311, type: 2}
+  - {fileID: 0}
   weaponCap: 2
   vision:
     viewDistance: 4

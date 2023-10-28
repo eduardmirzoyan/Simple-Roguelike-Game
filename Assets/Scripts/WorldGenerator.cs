@@ -19,9 +19,6 @@ public class WorldGenerator : ScriptableObject
 
     [Header("Entities")]
     [SerializeField] private EntityData playerData;
-    // [SerializeField] private EntityData enemyData;
-    // [SerializeField] private EntityData chestData;
-    // [SerializeField] private EntityData vaseData;
 
     public static Vector2Int[] DIRECTIONS = new Vector2Int[] { Vector2Int.left, Vector2Int.up, Vector2Int.right, Vector2Int.down };
 

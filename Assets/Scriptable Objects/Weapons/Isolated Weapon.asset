@@ -9,16 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce4dc272e0649744a055c3b2ff98aea, type: 3}
-  m_Name: Consecutive Miss Weapon
+  m_Script: {fileID: 11500000, guid: 76af500f18e066a4a8aa7f99010320f3, type: 3}
+  m_Name: Isolated Weapon
   m_EditorClassIdentifier: 
-  name: Mace
-  description: Build damage on consecutive misses (0/3)
-  sprite: {fileID: 21300000, guid: 632495d8db0d2e44b8a1aa6b01bed3e7, type: 3}
+  name: Magic Wand
+  description: +2 damage if target is isolated
+  sprite: {fileID: 21300000, guid: 744b5f8d4b73ee749af12132e6ea29d4, type: 3}
   damage: 0
-  range: 1
-  cooldown: 1
+  range: 3
+  cooldown: 2
   renderer: {fileID: 0}
   cooldownTimer: 0
-  bonusDamage: 0
-  damageCap: 3
+  bonusDamage: 2

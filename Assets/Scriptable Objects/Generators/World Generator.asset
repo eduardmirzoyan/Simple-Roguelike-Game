@@ -15,7 +15,7 @@ MonoBehaviour:
   gridWidth: 5
   gridHeight: 5
   roomSize: 5
-  numRooms: 3
+  numRooms: 8
   branchChance: 50
   gapSize: 1
   hallwaySize: 2

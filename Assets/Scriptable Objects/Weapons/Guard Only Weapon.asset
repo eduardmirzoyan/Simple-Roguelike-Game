@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Guard Only Weapon
   m_EditorClassIdentifier: 
   name: Axe
-  description: Only damages GUARD
-  sprite: {fileID: 21300000, guid: 240fab151bd2adf41a1c1d2765e0486c, type: 3}
+  description: Only deals damage to guard
+  sprite: {fileID: 21300000, guid: 2be38ca9df4c5884996dc0f423a8e5b3, type: 3}
   damage: 2
   range: 1
   cooldown: 1

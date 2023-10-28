@@ -368,7 +368,7 @@ public class GameManager : MonoBehaviour
 
         // Deal damage with weapon
         if (tileData.entityData != null)
-            EntityTakeDamage(tileData.entityData, weapon.GetTotalDamage(entityData, tileData.entityData), entityData);
+            EntityTakeDamage(tileData.entityData, weapon.CalculateDamage(entityData, tileData.entityData), entityData);
 
         // Handle visuals
         yield return entityData.entityRenderer.MeleeOverTime(tileData);

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Self No Guard Weapon
   m_EditorClassIdentifier: 
   name: Morning Star
-  description: Bonus damage when no guard
+  description: +1 damage when you have no guard
   sprite: {fileID: 21300000, guid: 2d56cce8ec4ef8743a9561077529361e, type: 3}
-  damage: 0
+  damage: 1
   range: 1
   cooldown: 1
   renderer: {fileID: 0}
   cooldownTimer: 0
-  damageBonus: 0
+  damageBonus: 1

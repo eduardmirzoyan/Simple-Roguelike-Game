@@ -7,7 +7,7 @@ public class OnCooldownWeapon : WeaponData
 {
     [SerializeField] private int damageBonus;
 
-    public override int GetTotalDamage(EntityData holderData, EntityData targetData)
+    public override int CalculateDamage(EntityData holderData, EntityData targetData)
     {
         bool applyBonus = false;
         foreach (var weapon in holderData.weapons)

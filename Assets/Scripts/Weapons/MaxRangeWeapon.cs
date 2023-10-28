@@ -7,7 +7,7 @@ public class MaxRangeWeapon : WeaponData
 {
     [SerializeField] private int damageBonus;
 
-    public override int GetTotalDamage(EntityData holderData, EntityData targetData)
+    public override int CalculateDamage(EntityData holderData, EntityData targetData)
     {
         int distance = Pathfinder.ManhattanDistance(holderData.tileData.position, targetData.tileData.position);
 

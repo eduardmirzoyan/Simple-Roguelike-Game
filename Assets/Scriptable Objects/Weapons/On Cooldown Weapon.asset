@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e3aef5a3227784992f6d26c5bd9a8f, type: 3}
   m_Name: On Cooldown Weapon
   m_EditorClassIdentifier: 
-  name: TODO
-  description: Bonus when on cooldown
+  name: Spear
+  description: +1 damage when other weapon is on cooldown
   sprite: {fileID: 21300000, guid: aa03d9dd36a91cf40b72483674605952, type: 3}
   damage: 1
   range: 1
