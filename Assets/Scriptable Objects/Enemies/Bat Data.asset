@@ -9,26 +9,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22c56573c37e80642835ce2d3d3e0678, type: 3}
-  m_Name: Player Data
+  m_Script: {fileID: 11500000, guid: 7683af20ec3cb7848927c08a63d4ba3d, type: 3}
+  m_Name: Bat Data
   m_EditorClassIdentifier: 
-  name: Player
-  maxHealth: 3
-  currentHealth: 3
+  name: Bat
+  maxHealth: 1
+  currentHealth: 1
   maxPosture: 2
   currentPosture: 2
   canRecoverPosture: 0
   weapons:
-  - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}
-  - {fileID: 11400000, guid: cb61c541d02adb74395b64ef191c6311, type: 2}
+  - {fileID: 11400000, guid: f447b2950e7aba44bbd0b7fe4cf26c2f, type: 2}
   weaponCap: 2
   vision:
-    viewDistance: 4
+    viewDistance: 1
     entityData: {fileID: 0}
   idleSprites:
-  - {fileID: 1923450682, guid: 7157c401dc2cbb545be56abc315ef460, type: 3}
-  - {fileID: -1496894319, guid: 7157c401dc2cbb545be56abc315ef460, type: 3}
-  hitSprite: {fileID: -571314907, guid: 7157c401dc2cbb545be56abc315ef460, type: 3}
+  - {fileID: 795664704, guid: e60d8fc13b55a8c4d91d721b9ad276f5, type: 3}
+  - {fileID: 1003141971, guid: e60d8fc13b55a8c4d91d721b9ad276f5, type: 3}
+  - {fileID: 61501229, guid: e60d8fc13b55a8c4d91d721b9ad276f5, type: 3}
+  - {fileID: 952874751, guid: e60d8fc13b55a8c4d91d721b9ad276f5, type: 3}
+  hitSprite: {fileID: 503907916, guid: e60d8fc13b55a8c4d91d721b9ad276f5, type: 3}
   deathSprites:
   - {fileID: 1734676958, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
   - {fileID: 1627987597, guid: 6ad70f0001ba32546a6a455df17c76ac, type: 3}
@@ -44,3 +45,5 @@ MonoBehaviour:
     player: {fileID: 0}
     enemies: []
     neutrals: []
+  ai: {fileID: 11400000, guid: 73bcb8c3c0e22f44d9f880ac031e8023, type: 2}
+  weaponLoot: {fileID: 0}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -95,22 +96,16 @@ public class PreviewManager : MonoBehaviour
     {
         var tiles = entityData.worldData.tiles;
 
-        if (tiles[position.x, position.y].entityData != null)
+        var targetData = tiles[position.x, position.y].entityData;
+        if (targetData != null)
         {
             var weapon = entityData.weapons[weaponIndex];
 
-            // Change color
-            if (weapon.bonusDamage > 0)
-            {
-                // TODO?
-            }
-            else
-            {
-                // TODO?
-            }
-
             var worldPositon = selectTilemap.GetCellCenterWorld(position);
-            DamagePreviewUI.instance.Show(weapon.totalDamge, worldPositon);
+            var damage = weapon.GetTotalDamage(entityData, targetData);
+            var color = damage > weapon.damage ? Color.yellow : Color.white;
+
+            DamagePreviewUI.instance.Show(damage, color, worldPositon);
         }
         else
         {

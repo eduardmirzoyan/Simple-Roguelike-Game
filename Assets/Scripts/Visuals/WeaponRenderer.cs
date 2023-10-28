@@ -35,8 +35,6 @@ public class WeaponRenderer : MonoBehaviour
 
     private void OnPickup(int _, WeaponData weaponData, TileData __)
     {
-        print("HIT!");
-
         if (this.weaponData == weaponData)
         {
             Destroy(gameObject);

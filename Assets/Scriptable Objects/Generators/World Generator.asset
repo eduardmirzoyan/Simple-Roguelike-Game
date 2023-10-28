@@ -15,11 +15,9 @@ MonoBehaviour:
   gridWidth: 5
   gridHeight: 5
   roomSize: 5
-  numRooms: 8
+  numRooms: 3
   branchChance: 50
   gapSize: 1
   hallwaySize: 2
+  enemyGenerator: {fileID: 11400000, guid: 0006ba56a826b4540947546d95705b7d, type: 2}
   playerData: {fileID: 11400000, guid: eb07db2bb5c2d82458802a32ea2a28a3, type: 2}
-  enemyData: {fileID: 11400000, guid: e4fb52bcca24eb94f896454aa42b8f46, type: 2}
-  chestData: {fileID: 11400000, guid: f7193fab2dd21bf4c839d4dc75b739dd, type: 2}
-  vaseData: {fileID: 11400000, guid: e41749ed778f71d478a59a109528d177, type: 2}

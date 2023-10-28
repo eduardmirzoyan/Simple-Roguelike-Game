@@ -24,9 +24,10 @@ public class DamagePreviewUI : MonoBehaviour
         instance = this;
     }
 
-    public void Show(int damage, Vector3 position)
+    public void Show(int damage, Color color, Vector3 position)
     {
         damageLabel.text = $"{damage} Damage";
+        damageLabel.color = color;
         transform.position = position + offset;
         canvasGroup.alpha = 1f;
     }

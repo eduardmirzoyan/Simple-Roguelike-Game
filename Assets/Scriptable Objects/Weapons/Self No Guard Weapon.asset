@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48aaeb2432b0d93448783ead5d5c0154, type: 3}
-  m_Name: Guard Damage Weapon
+  m_Script: {fileID: 11500000, guid: b1e0c762a3722d34cbc2d788757d2f86, type: 3}
+  m_Name: Self No Guard Weapon
   m_EditorClassIdentifier: 
-  name: Axe
-  description: +1 Damage when target has Guard
-  sprite: {fileID: 21300000, guid: 240fab151bd2adf41a1c1d2765e0486c, type: 3}
-  damage: 1
+  name: Morning Star
+  description: Bonus damage when no guard
+  sprite: {fileID: 21300000, guid: 2d56cce8ec4ef8743a9561077529361e, type: 3}
+  damage: 0
   range: 1
   cooldown: 1
   renderer: {fileID: 0}
   cooldownTimer: 0
-  damageBonus: 1
+  damageBonus: 0

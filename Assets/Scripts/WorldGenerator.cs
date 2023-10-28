@@ -14,11 +14,14 @@ public class WorldGenerator : ScriptableObject
     public int gapSize;
     public int hallwaySize;
 
+    [Header("Generators")]
+    public EnemyGenerator enemyGenerator;
+
     [Header("Entities")]
     [SerializeField] private EntityData playerData;
-    [SerializeField] private EntityData enemyData;
-    [SerializeField] private EntityData chestData;
-    [SerializeField] private EntityData vaseData;
+    // [SerializeField] private EntityData enemyData;
+    // [SerializeField] private EntityData chestData;
+    // [SerializeField] private EntityData vaseData;
 
     public static Vector2Int[] DIRECTIONS = new Vector2Int[] { Vector2Int.left, Vector2Int.up, Vector2Int.right, Vector2Int.down };
 
@@ -260,7 +263,7 @@ public class WorldGenerator : ScriptableObject
                             tile.type = TileType.Floor;
 
                             // Add chest here
-                            var chest = chestData.Copy() as EnemyData;
+                            var chest = enemyGenerator.GenerateChest();
                             worldData.neutrals.Add(chest);
                             chest.Initialize(tile, worldData);
 
@@ -270,7 +273,7 @@ public class WorldGenerator : ScriptableObject
                             tile.type = TileType.Floor;
 
                             // Add enemy here
-                            var enemy = enemyData.Copy() as EnemyData;
+                            var enemy = enemyGenerator.GenerateEnemy();
                             worldData.enemies.Add(enemy);
                             enemy.Initialize(tile, worldData);
 
@@ -279,7 +282,7 @@ public class WorldGenerator : ScriptableObject
                             tile.type = TileType.Floor;
 
                             // Add vase here
-                            var vase = vaseData.Copy() as EnemyData;
+                            var vase = enemyGenerator.GenerateVase();
                             worldData.neutrals.Add(vase);
                             vase.Initialize(tile, worldData);
 

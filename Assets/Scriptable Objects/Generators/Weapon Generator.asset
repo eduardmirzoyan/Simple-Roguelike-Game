@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec09a4f97f8d2ff44a8b30ea5d639a66, type: 3}
+  m_Name: Weapon Generator
+  m_EditorClassIdentifier: 
+  possibleWeapons:
+  - {fileID: 11400000, guid: 5273bd936b68acb40b9c50a8940dbeee, type: 2}
+  - {fileID: 11400000, guid: a55e1b795d1b5cf4abea22bd4c75842e, type: 2}
+  - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}
+  - {fileID: 11400000, guid: 03ad8de442ae1c149838b1853e16e287, type: 2}
+  - {fileID: 11400000, guid: bc17c2d51e0702543b99b9f207966090, type: 2}
+  - {fileID: 11400000, guid: b6f37a1177511834099488efb2de57b3, type: 2}
+  - {fileID: 11400000, guid: cb61c541d02adb74395b64ef191c6311, type: 2}

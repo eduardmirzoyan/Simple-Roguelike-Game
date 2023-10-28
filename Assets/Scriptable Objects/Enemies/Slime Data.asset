@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Slime Data
   m_EditorClassIdentifier: 
   name: Slime
-  maxHealth: 2
-  currentHealth: 2
-  maxPosture: 2
-  currentPosture: 2
+  maxHealth: 3
+  currentHealth: 3
+  maxPosture: 0
+  currentPosture: 0
   canRecoverPosture: 0
   weapons:
   - {fileID: 11400000, guid: f447b2950e7aba44bbd0b7fe4cf26c2f, type: 2}

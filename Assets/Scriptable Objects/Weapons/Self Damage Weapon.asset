@@ -9,15 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e112e05f25417a47b3d5b89e25af372, type: 3}
-  m_Name: Sword Weapon
+  m_Script: {fileID: 11500000, guid: 510342d308e9da042a1b4a9804674a04, type: 3}
+  m_Name: Self Damage Weapon
   m_EditorClassIdentifier: 
-  name: Sword
-  description: Does nothing special
-  sprite: {fileID: 21300000, guid: 5572383ed7ad72845abdafbe34286690, type: 3}
-  damage: 1
-  range: 3
+  name: TODO
+  description: Taking damage builds damage until next attack (0/3)
+  sprite: {fileID: 0}
+  damage: 0
+  range: 1
   cooldown: 1
   renderer: {fileID: 0}
   cooldownTimer: 0
   bonusDamage: 0
+  bonusCap: 3

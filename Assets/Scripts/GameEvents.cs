@@ -19,6 +19,8 @@ public class GameEvents : MonoBehaviour
     public event Action onActionStart;
     public event Action onActionEnd;
 
+    public event Action<EntityData, WeaponData, TileData> onEntityAttackTile;
+
     public event Action<EntityData> onEntityResourceChange;
 
     public event Action<EnemyData> onEntityInspect;
@@ -104,6 +106,14 @@ public class GameEvents : MonoBehaviour
         if (onWeaponPickup != null)
         {
             onWeaponPickup(index, weaponData, tileData);
+        }
+    }
+
+    public void TriggerOnEntityAttackTile(EntityData entityData, WeaponData weaponData, TileData tileData)
+    {
+        if (onEntityAttackTile != null)
+        {
+            onEntityAttackTile(entityData, weaponData, tileData);
         }
     }
 

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2654965e44a737840be2e8d8ac81affb, type: 3}
+  m_Name: Enemy Generator
+  m_EditorClassIdentifier: 
+  vase: {fileID: 11400000, guid: e41749ed778f71d478a59a109528d177, type: 2}
+  chest: {fileID: 11400000, guid: f7193fab2dd21bf4c839d4dc75b739dd, type: 2}
+  possibleEnemies:
+  - {fileID: 11400000, guid: e4fb52bcca24eb94f896454aa42b8f46, type: 2}
+  - {fileID: 11400000, guid: 1e07c65546915524d965dbafe62ddb27, type: 2}
+  - {fileID: 11400000, guid: 148bfd8a3d4db564b953d762f70009bb, type: 2}
+  weaponGenerator: {fileID: 11400000, guid: 5e2129d30c47b62469502a5f72da5619, type: 2}

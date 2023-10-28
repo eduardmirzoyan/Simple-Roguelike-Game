@@ -364,11 +364,17 @@ public class GameManager : MonoBehaviour
 
         var weapon = entityData.weapons[weaponIndex];
 
-        // Attack with weapon
-        weapon.Attack(entityData, tileData);
+        GameEvents.instance.TriggerOnEntityAttackTile(entityData, weapon, tileData);
+
+        // Deal damage with weapon
+        if (tileData.entityData != null)
+            EntityTakeDamage(tileData.entityData, weapon.GetTotalDamage(entityData, tileData.entityData), entityData);
 
         // Handle visuals
         yield return entityData.entityRenderer.MeleeOverTime(tileData);
+
+        // Use with weapon
+        weapon.Use();
 
         // Set cooldown timer
         weapon.cooldownTimer = weapon.cooldown;
@@ -495,10 +501,10 @@ public class GameManager : MonoBehaviour
 
                 // Drop old weapon
                 tileData.weapon = oldWeapon;
+                oldWeapon.Unintialize();
 
-                // Create visual
+                // Create visuals (move into event?)
                 WorldRenderer.instance.SpawnWeapon(oldWeapon, tileData.position);
-
                 WeaponDropUI.instance.Show(oldWeapon);
 
                 // Trigger event
@@ -514,6 +520,7 @@ public class GameManager : MonoBehaviour
 
             // Pick up new one
             entityData.weapons[weaponIndex] = newWeapon;
+            newWeapon.Initialize(entityData);
 
             // Trigger event
             GameEvents.instance.TriggerOnWeaponPickup(weaponIndex, newWeapon, tileData);
@@ -527,7 +534,7 @@ public class GameManager : MonoBehaviour
                 tileData.weapon = weapon;
                 entityData.weapons[weaponIndex] = null;
 
-                // Update visuals
+                // Update visuals (move into event?)
                 WeaponDropUI.instance.Show(weapon);
                 WorldRenderer.instance.SpawnWeapon(weapon, tileData.position);
 
@@ -536,10 +543,6 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-
-    // ~~~~~~~~~~~~~~HELPER FUNCTIONS HERE ~~~~~~~~~~~~~~~~~~
-
 
     private void GenerateTurnOrder()
     {

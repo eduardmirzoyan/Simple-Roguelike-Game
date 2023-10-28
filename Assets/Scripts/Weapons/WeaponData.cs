@@ -17,23 +17,20 @@ public abstract class WeaponData : ScriptableObject
     [Header("Runtime Data")]
     public WeaponRenderer renderer;
     public int cooldownTimer;
-    public int bonusDamage;
-    public int totalDamge
+
+    public virtual int GetTotalDamage(EntityData holderData, EntityData targetData)
     {
-        get { return damage + bonusDamage; }
+        return damage;
     }
 
-    public void Initialize()
+    public virtual void Initialize(EntityData holder)
     {
-        // TODO
+        // Used to store data for other weapons
     }
 
-    public void Unintialize()
-    {
-        // TODO
-    }
+    public virtual void Use() { }
 
-    public abstract void Attack(EntityData holderData, TileData targetData);
+    public virtual void Unintialize() { }
 
     public WeaponData Copy()
     {
