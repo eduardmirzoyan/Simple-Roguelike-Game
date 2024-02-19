@@ -8,7 +8,7 @@ public class GameEvents : MonoBehaviour
     public event Action<EntityData> onTurnStart;
     public event Action<EntityData> onTurnEnd;
 
-    public event Action<TileData> onTileEnter;
+    public event Action<EntityData, TileData> onTileEnter;
 
     public event Action<int, WeaponData, TileData> onWeaponDrop;
     public event Action<int, WeaponData, TileData> onWeaponPickup;
@@ -25,6 +25,8 @@ public class GameEvents : MonoBehaviour
 
     public event Action<EnemyData> onEntityInspect;
 
+    public event Action<EnemyData> onEnemyChangeState;
+
     public static GameEvents instance;
     private void Awake()
     {
@@ -39,97 +41,66 @@ public class GameEvents : MonoBehaviour
 
     public void TriggerOnTurnStart(EntityData entityData)
     {
-        if (onTurnStart != null)
-        {
-            onTurnStart(entityData);
-        }
+        onTurnStart?.Invoke(entityData);
     }
 
     public void TriggerOnTurnEnd(EntityData entityData)
     {
-        if (onTurnEnd != null)
-        {
-            onTurnEnd(entityData);
-        }
+        onTurnEnd?.Invoke(entityData);
     }
 
-    public void TriggerOnTileEnter(TileData tileData)
+    public void TriggerOnTileEnter(EntityData entityData, TileData tileData)
     {
-        if (onTileEnter != null)
-        {
-            onTileEnter(tileData);
-        }
+        onTileEnter?.Invoke(entityData, tileData);
     }
 
     public void TriggerOnAttackSelect(WeaponData weaponData)
     {
-        if (onAttackSelect != null)
-        {
-            onAttackSelect(weaponData);
-        }
+        onAttackSelect?.Invoke(weaponData);
     }
 
     public void TriggerOnAttackCancel(WeaponData weaponData)
     {
-        if (onAttackCancel != null)
-        {
-            onAttackCancel(weaponData);
-        }
+        onAttackCancel?.Invoke(weaponData);
     }
 
     public void TriggerOnActionStart()
     {
-        if (onActionStart != null)
-        {
-            onActionStart();
-        }
+        onActionStart?.Invoke();
     }
 
     public void TriggerOnActionEnd()
     {
-        if (onActionEnd != null)
-        {
-            onActionEnd();
-        }
+        onActionEnd?.Invoke();
     }
 
     public void TriggerOnWeaponDrop(int index, WeaponData weaponData, TileData tileData)
     {
-        if (onWeaponDrop != null)
-        {
-            onWeaponDrop(index, weaponData, tileData);
-        }
+        onWeaponDrop?.Invoke(index, weaponData, tileData);
     }
 
     public void TriggerOnWeaponPickup(int index, WeaponData weaponData, TileData tileData)
     {
-        if (onWeaponPickup != null)
-        {
-            onWeaponPickup(index, weaponData, tileData);
-        }
+        onWeaponPickup?.Invoke(index, weaponData, tileData);
     }
 
     public void TriggerOnEntityAttackTile(EntityData entityData, WeaponData weaponData, TileData tileData)
     {
-        if (onEntityAttackTile != null)
-        {
-            onEntityAttackTile(entityData, weaponData, tileData);
-        }
+        onEntityAttackTile?.Invoke(entityData, weaponData, tileData);
     }
 
     public void TriggerOnEntityResourceChange(EntityData entityData)
     {
-        if (onEntityResourceChange != null)
-        {
-            onEntityResourceChange(entityData);
-        }
+        onEntityResourceChange?.Invoke(entityData);
     }
 
     public void TriggerOnEnemyInspect(EnemyData enemyData)
     {
-        if (onEntityInspect != null)
-        {
-            onEntityInspect(enemyData);
-        }
+        onEntityInspect?.Invoke(enemyData);
+    }
+
+    public void TriggerOnEnemyChangeState(EnemyData enemyData)
+    {
+        onEnemyChangeState?.Invoke(enemyData);
     }
 }

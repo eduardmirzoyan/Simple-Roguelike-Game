@@ -20,6 +20,9 @@ MonoBehaviour:
   canRecoverPosture: 0
   weapons: []
   weaponCap: 2
+  vision:
+    viewDistance: 0
+    entityData: {fileID: 0}
   idleSprites:
   - {fileID: -1778124933, guid: b86a9ca7c94853f4c9d442d4ef3db044, type: 3}
   hitSprite: {fileID: -578672937, guid: b86a9ca7c94853f4c9d442d4ef3db044, type: 3}
@@ -38,5 +41,5 @@ MonoBehaviour:
     player: {fileID: 0}
     enemies: []
     neutrals: []
-  ai: {fileID: 11400000, guid: dd5aaa7e51d161e40bece14b6b6d4039, type: 2}
+  ai: {fileID: 0}
   weaponLoot: {fileID: 0}

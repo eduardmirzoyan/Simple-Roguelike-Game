@@ -29,7 +29,10 @@ public class EnemyInspectManager : MonoBehaviour
 
     public void InspectTile(TileData tileData)
     {
-        // If we have a previous enemy, clear it
+        if (tileData == null)
+            throw new System.Exception("Input was null!");
+
+        // If we have a previous enemy, clear it (or input null)
         if (this.enemyData != null)
         {
             GameEvents.instance.TriggerOnEnemyInspect(null);
@@ -59,6 +62,14 @@ public class EnemyInspectManager : MonoBehaviour
 
             this.enemyData = enemyData;
         }
+    }
 
+    public void ResetInspect()
+    {
+        GameEvents.instance.TriggerOnEnemyInspect(null);
+
+        inspectTilemap.ClearAllTiles();
+
+        this.enemyData = null;
     }
 }

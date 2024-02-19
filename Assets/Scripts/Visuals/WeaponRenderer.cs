@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class WeaponRenderer : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private WeaponTooltipUI weaponTooltipUI;
 
     [Header("Settings")]
     [SerializeField] private float popoutDistance;
@@ -25,19 +27,50 @@ public class WeaponRenderer : MonoBehaviour
 
         StartCoroutine(Animation());
 
+        GameEvents.instance.onWeaponDrop += OnDrop;
         GameEvents.instance.onWeaponPickup += OnPickup;
+        GameEvents.instance.onTileEnter += OnTileEnter;
     }
-
     private void OnDestroy()
     {
+        GameEvents.instance.onWeaponDrop -= OnDrop;
         GameEvents.instance.onWeaponPickup -= OnPickup;
+        GameEvents.instance.onTileEnter -= OnTileEnter;
     }
+
+    private void OnDrop(int _, WeaponData weaponData, TileData __)
+    {
+        if (this.weaponData == weaponData)
+        {
+            string instructions = $"[Shift] + [F] or [G] to EQUIP";
+            weaponTooltipUI.Show(weaponData, instructions);
+        }
+        else
+        {
+            weaponTooltipUI.Hide();
+        }
+    }
+
 
     private void OnPickup(int _, WeaponData weaponData, TileData __)
     {
         if (this.weaponData == weaponData)
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTileEnter(EntityData entityData, TileData tileData)
+    {
+        // If player entered the tile this weapon is on
+        if (tileData.weapon == weaponData && entityData is PlayerData)
+        {
+            string instructions = $"[Shift] + [F] or [G] to EQUIP";
+            weaponTooltipUI.Show(weaponData, instructions);
+        }
+        else
+        {
+            weaponTooltipUI.Hide();
         }
     }
 

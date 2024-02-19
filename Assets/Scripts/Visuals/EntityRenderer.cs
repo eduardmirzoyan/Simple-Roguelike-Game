@@ -17,11 +17,15 @@ public class EntityRenderer : MonoBehaviour
     [SerializeField] private float deathFrameDuration;
 
     [Header("Settings")]
+    [SerializeField] private float waitDuration = 0.5f;
     [SerializeField] private float moveDuration = 0.5f;
     [SerializeField] private float attackDuration = 0.25f;
     [SerializeField] private float leanAngle;
     [SerializeField] private float attackPower;
     [SerializeField] private float hitStrength;
+
+    [Header("Sound")]
+    [SerializeField] private float moveSFXRate = 0.25f;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private EntityData entityData;
@@ -130,6 +134,11 @@ public class EntityRenderer : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public IEnumerator WaitOverTime()
+    {
+        yield return new WaitForSeconds(waitDuration);
+    }
+
     public IEnumerator MoveOverTime(Vector3Int direction)
     {
         Vector3 start = transform.position;
@@ -146,10 +155,16 @@ public class EntityRenderer : MonoBehaviour
         else
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, spriteRenderer.flipX ? -leanAngle : leanAngle);
 
+        // Play sound
+        InvokeRepeating(nameof(FootstepsSFX), 0f, moveSFXRate);
+
         // Move over time
         LeanTween.move(gameObject, end, moveDuration).setEaseInOutSine();
         yield return new WaitForSeconds(moveDuration);
         LeanTween.cancel(gameObject);
+
+        // Stop sound
+        CancelInvoke(nameof(FootstepsSFX));
 
         spriteRenderer.transform.rotation = Quaternion.identity;
         transform.position = end;
@@ -171,11 +186,13 @@ public class EntityRenderer : MonoBehaviour
 
     public void TakeHit(Vector3Int sourcePosition)
     {
+        AudioManager.instance.PlaySFX("Hit");
         animationRoutine = StartCoroutine(HitAnimation(sourcePosition));
     }
 
     public void Die()
     {
+        AudioManager.instance.PlaySFX("Die");
         animationRoutine = StartCoroutine(DeathAnimation());
     }
 
@@ -193,6 +210,11 @@ public class EntityRenderer : MonoBehaviour
             spriteRenderer.flipX = false;
         else if (direction.x < 0)
             spriteRenderer.flipX = true;
+    }
+
+    private void FootstepsSFX()
+    {
+        AudioManager.instance.PlaySFX("Move");
     }
 
     private void OnDrawGizmosSelected()

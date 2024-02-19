@@ -61,5 +61,77 @@ MonoBehaviour:
     ignorePause: 1
     audioSource: {fileID: 0}
     audioMixerGroup: {fileID: 3010432625692923313, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
-  sfxSounds: []
+  sfxSounds:
+  - name: Move
+    audioClip: {fileID: 8300000, guid: 1fecc2b5c8d96bf4f862e4a124dd2399, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Move
+    audioClip: {fileID: 8300000, guid: 23774ebc433407741aca24a72adb840f, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Move
+    audioClip: {fileID: 8300000, guid: 66289815031cb5f41a5157628397aa30, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Die
+    audioClip: {fileID: 8300000, guid: b6005268779e02e48989861f4d6273df, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Hit
+    audioClip: {fileID: 8300000, guid: beae788151b46814eab50e71f97ea54d, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Hit
+    audioClip: {fileID: 8300000, guid: 2c7bcaf805ad84a428a3a5c3a54d156c, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Hit
+    audioClip: {fileID: 8300000, guid: b81b62af6cbdf9b46932953c5a305a7e, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Hit
+    audioClip: {fileID: 8300000, guid: 19a922e4ce9272544be55ef29ce223f4, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
+  - name: Aggro
+    audioClip: {fileID: 8300000, guid: 883c6ec83b4f5534fbd634270a78363e, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    ignorePause: 0
+    audioSource: {fileID: 0}
+    audioMixerGroup: {fileID: 6634437653376095073, guid: 800867c0817e27245b5b7bd8063d57cb, type: 2}
   fadeTime: 1

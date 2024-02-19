@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -45,13 +46,23 @@ public class PlayerMananger : MonoBehaviour
         if (playerData == null)
             return;
 
+        if (!allowInput)
+            return;
+
+        if ((bool)(PauseManager.instance?.IsPaused))
+            return;
+
         var mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var mouseCellPosition = tilemap.WorldToCell(mouseWorldPosition);
 
         if (mouseCellPosition != currCellPosition)
         {
             if (WorldGenerator.OutOfBounds(mouseCellPosition, playerData.worldData.tiles))
-                return;
+                goto outside;
+
+            // Make sure player can see it
+            if (!playerData.vision.visiblePositions.ContainsKey(mouseCellPosition))
+                goto outside;
 
             var tileData = playerData.worldData.tiles[mouseCellPosition.x, mouseCellPosition.y];
 
@@ -59,9 +70,7 @@ public class PlayerMananger : MonoBehaviour
 
             currCellPosition = mouseCellPosition;
         }
-
-        if (!allowInput)
-            return;
+    outside:
 
         // ~~~~~ Mouse input ~~~~~
 
@@ -80,7 +89,7 @@ public class PlayerMananger : MonoBehaviour
 
         HandleMoveInput();
 
-        HandleAttackInput();
+        HandleWeaponInput();
     }
 
     private void HandleSkipInput()
@@ -111,7 +120,7 @@ public class PlayerMananger : MonoBehaviour
         }
     }
 
-    private void HandleAttackInput()
+    private void HandleWeaponInput()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -147,6 +156,15 @@ public class PlayerMananger : MonoBehaviour
     public void PreventInput()
     {
         allowInput = false;
+
+        ResetInspect();
+    }
+
+    private void ResetInspect()
+    {
+        if (currCellPosition != Vector3Int.back)
+            EnemyInspectManager.instance.ResetInspect();
+
         currCellPosition = Vector3Int.back;
     }
 }

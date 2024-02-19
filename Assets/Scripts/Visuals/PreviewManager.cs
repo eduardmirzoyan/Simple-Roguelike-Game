@@ -47,8 +47,8 @@ public class PreviewManager : MonoBehaviour
 
         var mouseCellPosition = PlayerMananger.instance.GetMousePosition();
 
-        // If in range of valid tiles
-        if (validPositions.ContainsKey(mouseCellPosition))
+        // If in range of valid tiles (and not itself)
+        if (validPositions.ContainsKey(mouseCellPosition) && mouseCellPosition != entityData.tileData.position)
         {
             // Different position
             if (mouseCellPosition != previousPosition)

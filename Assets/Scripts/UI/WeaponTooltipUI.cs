@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class WeaponTooltipUI : MonoBehaviour
 {
@@ -15,15 +16,18 @@ public class WeaponTooltipUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI weaponDescription;
     [SerializeField] private TextMeshProUGUI weaponInstructions;
 
-    private void Start()
+    [Header("Settings")]
+    [SerializeField] private float fadeDuration;
+
+    private void Awake()
     {
         Hide();
     }
 
-    public void Show(WeaponData weaponData, string instructions)
+    public void Show(WeaponData weaponData, string instructions = "", bool instant = false)
     {
         if (weaponData == null)
-            return;
+            throw new System.Exception("Tooltip attempted to display null data.");
 
         weaponName.text = weaponData.name;
         weaponType.text = weaponData.range > 1 ? "Ranged Weapon" : "Melee Weapon";
@@ -33,11 +37,51 @@ public class WeaponTooltipUI : MonoBehaviour
         weaponDescription.text = weaponData.description;
         weaponInstructions.text = instructions;
 
+        // Update content to fit in tooltip
+        LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+
+        StopAllCoroutines();
+        if (instant)
+            canvasGroup.alpha = 1f;
+        else
+            StartCoroutine(FadeIn(fadeDuration));
+    }
+
+    public void Hide(bool instant = false)
+    {
+        if (canvasGroup.alpha < 0.1f)
+            return;
+
+        StopAllCoroutines();
+        if (instant)
+            canvasGroup.alpha = 0f;
+        else
+            StartCoroutine(FadeOut(fadeDuration));
+    }
+
+    private IEnumerator FadeIn(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / duration);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
         canvasGroup.alpha = 1f;
     }
 
-    public void Hide()
+    private IEnumerator FadeOut(float duration)
     {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
         canvasGroup.alpha = 0f;
     }
 }

@@ -43,5 +43,5 @@ MonoBehaviour:
     player: {fileID: 0}
     enemies: []
     neutrals: []
-  ai: {fileID: 11400000, guid: 73bcb8c3c0e22f44d9f880ac031e8023, type: 2}
+  ai: {fileID: 11400000, guid: 477abccf6df5cd6489dcdffeab3f73be, type: 2}
   weaponLoot: {fileID: 0}

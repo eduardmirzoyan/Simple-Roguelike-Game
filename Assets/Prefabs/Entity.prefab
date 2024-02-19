@@ -60,6 +60,7 @@ MonoBehaviour:
   leanAngle: 5
   attackPower: 0.5
   hitStrength: 0.25
+  moveSFXRate: 0.33
   entityData: {fileID: 0}
   currentAnimation: 
 --- !u!1 &1643966989192016125

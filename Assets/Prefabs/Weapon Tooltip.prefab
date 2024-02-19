@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5411962638647781205}
   - component: {fileID: 8880908220114541667}
   - component: {fileID: 897862313306715152}
+  - component: {fileID: 1131552122869996524}
   m_Layer: 5
   m_Name: Instruction Label
   m_TagString: Untagged
@@ -35,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 275, y: 30}
+  m_AnchoredPosition: {x: 137.5, y: 0}
+  m_SizeDelta: {x: 275, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8880908220114541667
 CanvasRenderer:
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[Shift] + [0] to Drop'
+  m_text: '[Shift] + [F] or [G]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 61b63460c4429c645b854a8f4491da2b, type: 2}
   m_sharedMaterial: {fileID: 7512211970155150669, guid: 61b63460c4429c645b854a8f4491da2b, type: 2}
@@ -101,7 +102,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 8192
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -129,12 +130,26 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 15, y: 0, z: 15, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1131552122869996524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449644016577142048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &835983483054172728
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +730,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 10, y: 5, z: 10, w: 5}
+  m_margin: {x: 15, y: 5, z: 15, w: 5}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1068,6 +1083,7 @@ MonoBehaviour:
   weaponCooldown: {fileID: 4004420305775211143}
   weaponDescription: {fileID: 2205625520693119563}
   weaponInstructions: {fileID: 897862313306715152}
+  fadeDuration: 0.25
 --- !u!1 &2205625522189041522
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,8 @@ public class EnemyData : EntityData
     {
         var copy = base.Copy() as EnemyData;
 
-        copy.ai = ai.Copy();
+        if (ai != null)
+            copy.ai = ai.Copy();
 
         if (weaponLoot != null)
             copy.weaponLoot = weaponLoot.Copy();

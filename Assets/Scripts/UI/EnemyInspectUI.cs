@@ -9,6 +9,7 @@ public class EnemyInspectUI : MonoBehaviour
     [Header("Basic")]
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI nameLabel;
+    [SerializeField] private TextMeshProUGUI stateLabel;
     [SerializeField] private ResourcebarUI guardbar;
     [SerializeField] private ResourcebarUI healthbar;
 
@@ -55,6 +56,14 @@ public class EnemyInspectUI : MonoBehaviour
         if (enemyData != null)
         {
             nameLabel.text = enemyData.name;
+
+            if (enemyData.ai != null)
+            {
+                stateLabel.gameObject.SetActive(true);
+                stateLabel.text = enemyData.ai.state.ToString();
+            }
+            else
+                stateLabel.gameObject.SetActive(false);
 
             guardbar.Initialize(enemyData.currentPosture, enemyData.maxPosture);
             healthbar.Initialize(enemyData.currentHealth, enemyData.maxHealth);

@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef8aab8ccccd934c90b98a4aa4f9997, type: 3}
-  m_Name: Chest AI
+  m_Script: {fileID: 11500000, guid: fd75edc19c009d14c93b7d6634540f4b, type: 3}
+  m_Name: Melee AI
   m_EditorClassIdentifier: 
+  state: 0

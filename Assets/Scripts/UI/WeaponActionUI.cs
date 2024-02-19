@@ -169,14 +169,18 @@ public class WeaponActionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        string instructions = $"[Shift] + [{hotkey}] to DROP";
-        weaponTooltip.Show(entityData.weapons[weaponIndex], instructions);
+        var weapon = entityData.weapons[weaponIndex];
+        if (weapon != null)
+        {
+            string instructions = $"[Shift] + [{hotkey}] to DROP";
+            weaponTooltip.Show(entityData.weapons[weaponIndex], instructions, true);
+        }
         highlightImage.enabled = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        weaponTooltip.Hide();
+        weaponTooltip.Hide(true);
         highlightImage.enabled = false;
     }
 

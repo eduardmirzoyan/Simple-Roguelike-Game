@@ -16,6 +16,10 @@ public class GameManager : MonoBehaviour
     [SerializeField, ReadOnly] private EntityData currentEntity;
     [SerializeField, ReadOnly] private WeaponData selectedWeapon;
 
+    [Header("Logging")]
+    [SerializeField] private bool logGameStates;
+    [SerializeField] private bool logEntityActions;
+
     public static GameManager instance;
     private void Awake()
     {
@@ -35,6 +39,15 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.ForceSoftware);
 
         StartCoroutine(StartLevel());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            print(worldData.player.vision.visiblePositions.Count);
+            print(worldData.player.vision.previousPositions.Count);
+        }
     }
 
     private IEnumerator StartLevel()
@@ -64,7 +77,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         TransitionManager.instance.OpenScene();
 
-        print($"Starting Level");
+        if (logGameStates) print("Starting Level");
 
         yield return StartRound();
     }
@@ -73,7 +86,7 @@ public class GameManager : MonoBehaviour
     {
         roundNumber++;
 
-        // print($"Round {roundNumber} Start");
+        if (logGameStates) print($"Round {roundNumber} Start");
 
         // Generate queue
         GenerateTurnOrder();
@@ -97,7 +110,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartTurn(EntityData entityData)
     {
-        //print($"Turn Start: {currentTurnEntity.name}");
+        if (logGameStates) print($"Turn Start: {entityData.name}");
 
         EntityRecoverPosture(entityData);
 
@@ -110,32 +123,33 @@ public class GameManager : MonoBehaviour
         }
         else if (entityData is EnemyData)
         {
-            var enemy = entityData as EnemyData;
-            if (enemy.ai != null)
-            {
-                // Perform action based on AI
-                enemy.ai.PerformTurn(entityData as EnemyData, worldData);
-            }
-            else
-            {
-                // Skip turn instead
-                yield return EndTurn();
-            }
+            HandleEnemyTurn(entityData as EnemyData);
+            yield return null;
         }
-        else
+        else throw new System.Exception("UNHANDLED ENTITY");
+
+    }
+
+    private void HandleEnemyTurn(EnemyData enemyData)
+    {
+        if (enemyData.ai == null)
+            throw new System.Exception("Enemy AI not found.");
+
+        if (enemyData.ai.state == AI.State.Awake)
         {
-            print("UNHANDLED ENTITY");
+            enemyData.entityRenderer.Aggro(false);
+            enemyData.ai.state = AI.State.Aggro;
         }
 
+        // Perform action based on AI
+        enemyData.ai.PerformTurn(enemyData, worldData);
     }
 
     private IEnumerator EndTurn()
     {
-        //print($"Turn End: {currentTurnEntity.name}");
+        if (logGameStates) print($"Turn End: {currentEntity.name}");
 
         EntityReduceCooldowns(currentEntity);
-
-        //PlayerActionsUI.instance.DisableActions();
 
         GameEvents.instance.TriggerOnTurnEnd(currentEntity);
 
@@ -160,7 +174,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndRound()
     {
-        // print($"Round {roundNumber} End");
+        if (logGameStates) print($"Round {roundNumber} End");
 
         // Start new round
         yield return StartRound();
@@ -168,7 +182,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndLevel()
     {
-        print($"Ending Level");
+        if (logGameStates) print($"Ending Level");
 
         // Load new randomly generated level
         TransitionManager.instance.ReloadScene();
@@ -181,17 +195,29 @@ public class GameManager : MonoBehaviour
         if (selectedWeapon != null)
             return;
 
-        print($"{entityData.name} skipped their turn.");
-
-        if (currentEntity is PlayerData)
-        {
-            PlayerMananger.instance.PreventInput();
-        }
+        if (logGameStates) print($"{entityData.name} skipped their turn.");
 
         // Trigger event
         GameEvents.instance.TriggerOnActionStart();
 
-        StartCoroutine(EndTurn());
+        if (currentEntity is PlayerData)
+        {
+            PlayerMananger.instance.PreventInput();
+
+            StartCoroutine(SkipOverTime(entityData));
+        }
+        else
+        {
+            StartCoroutine(EndTurn());
+        }
+    }
+
+    private IEnumerator SkipOverTime(EntityData entityData)
+    {
+        // Wait a bit before ending turn
+        yield return entityData.entityRenderer.WaitOverTime();
+
+        yield return EndTurn();
     }
 
     public bool IsValidMove(EntityData entityData, Vector3Int direction)
@@ -226,12 +252,11 @@ public class GameManager : MonoBehaviour
         if (!IsValidMove(entityData, direction))
             return;
 
-        // print($"{entityData.name} moved towards {direction}.");
+        if (logEntityActions) print($"{entityData.name} moved towards {direction}.");
 
         if (entityData is PlayerData)
         {
             PlayerMananger.instance.PreventInput();
-            // PlayerActionsUI.instance.DisableActions();
         }
 
         // Trigger event
@@ -256,18 +281,26 @@ public class GameManager : MonoBehaviour
         // Calculate new vision for that location
         entityData.vision.Refresh();
 
-        // if player
+        // Handle special case for player
         if (entityData is PlayerData)
         {
             // Update vision
             FogOfWarRenderer.instance.UpdateFog(entityData.vision);
 
-            // Display any weapons on the tile
-            if (destinationTile.weapon != null)
-                WeaponDropUI.instance.Show(destinationTile.weapon);
-            else
-                WeaponDropUI.instance.Hide();
+            // Alert enemies in vision
+            foreach (var enemyData in worldData.enemies)
+            {
+                if (enemyData.ai.state == AI.State.Dormant && entityData.vision.visiblePositions.ContainsKey(enemyData.tileData.position))
+                {
+                    print($"{enemyData} was alerted!");
+                    enemyData.entityRenderer.Aggro(true);
+                    enemyData.ai.state = AI.State.Awake;
+                }
+            }
         }
+
+        // Trigger event
+        GameEvents.instance.TriggerOnTileEnter(entityData, destinationTile);
 
         // If landed on exit, then leave level
         if (destinationTile.type == TileType.Exit)
@@ -285,7 +318,7 @@ public class GameManager : MonoBehaviour
             // If weapon on cooldown
             if (weapon.cooldownTimer > 0)
             {
-                print($"Weapon on cooldown.");
+                print($"Weapon is on cooldown.");
                 return;
             }
 
@@ -329,7 +362,7 @@ public class GameManager : MonoBehaviour
 
     public void EntityCancelAttack(EntityData entityData, int weaponIndex)
     {
-        print($"{entityData.name} cancels the attack.");
+        if (logEntityActions) print($"{entityData.name} cancels the attack.");
 
         selectedWeapon = null;
 
@@ -340,7 +373,7 @@ public class GameManager : MonoBehaviour
 
     public void EntityPerformAttack(EntityData entityData, int weaponIndex, Vector3Int position)
     {
-        print($"{entityData.name} attacks the location: {position}.");
+        if (logEntityActions) print($"{entityData.name} attacks the location: {position}.");
 
         selectedWeapon = null;
 
@@ -385,14 +418,19 @@ public class GameManager : MonoBehaviour
 
     public void EntityTakeDamage(EntityData entityData, int amount, EntityData source)
     {
+
         if (entityData.currentPosture >= amount)
         {
+            FloatingTextManager.instance.SpawnText($"{amount}", Color.yellow, entityData.entityRenderer.transform.position);
+
             entityData.currentPosture -= amount;
 
             print($"{entityData.name} took {amount} posture damage.");
         }
         else
         {
+            FloatingTextManager.instance.SpawnText($"{amount}", Color.red, entityData.entityRenderer.transform.position);
+
             int leftOver = amount - entityData.currentPosture;
             entityData.currentPosture = 0;
 
@@ -503,9 +541,8 @@ public class GameManager : MonoBehaviour
                 tileData.weapon = oldWeapon;
                 oldWeapon.Unintialize();
 
-                // Create visuals (move into event?)
+                // Create visuals
                 WorldRenderer.instance.SpawnWeapon(oldWeapon, tileData.position);
-                WeaponDropUI.instance.Show(oldWeapon);
 
                 // Trigger event
                 GameEvents.instance.TriggerOnWeaponDrop(weaponIndex, oldWeapon, tileData);
@@ -514,8 +551,6 @@ public class GameManager : MonoBehaviour
             {
                 // Remove from ground
                 tileData.weapon = null;
-
-                WeaponDropUI.instance.Hide();
             }
 
             // Pick up new one
@@ -534,8 +569,7 @@ public class GameManager : MonoBehaviour
                 tileData.weapon = weapon;
                 entityData.weapons[weaponIndex] = null;
 
-                // Update visuals (move into event?)
-                WeaponDropUI.instance.Show(weapon);
+                // Update visuals
                 WorldRenderer.instance.SpawnWeapon(weapon, tileData.position);
 
                 // Trigger event
@@ -548,7 +582,17 @@ public class GameManager : MonoBehaviour
     {
         // First add player
         turnQueue.Add(worldData.player);
-        // Then Add enemies 
-        turnQueue.AddRange(worldData.enemies);
+
+        // Then add enemies
+        foreach (EnemyData enemy in worldData.enemies)
+        {
+            if (enemy.ai != null && enemy.ai.state != AI.State.Dormant)
+            {
+                turnQueue.Add(enemy);
+            }
+        }
+
+        if (turnQueue.Count == 0)
+            throw new System.Exception("No entities left in the map.");
     }
 }

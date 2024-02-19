@@ -58,4 +58,9 @@ public abstract class EntityData : ScriptableObject
 
         return copy;
     }
+
+    public override string ToString()
+    {
+        return $"-{name} ({currentPosture}/{maxPosture}) [{currentHealth}/{maxHealth}]-";
+    }
 }
