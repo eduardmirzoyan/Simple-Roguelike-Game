@@ -466,10 +466,11 @@ public class GameManager : MonoBehaviour
         TileData tileData = entityData.tileData;
         tileData.entityData = null;
 
+        // Logic for when player is killed
         if (entityData is PlayerData)
         {
-            // If player was killed, reload level
-            TransitionManager.instance.ReloadScene();
+            // Open game over UI
+            GameEvents.instance.TriggerOnGameOver(0);
         }
         else if (entityData is EnemyData)
         {

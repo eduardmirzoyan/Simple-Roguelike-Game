@@ -56,7 +56,8 @@ public class TransitionUI : MonoBehaviour
         var screenHeight = Screen.height;
 
         // Need a target
-        var playerScreenPos = Camera.main.WorldToScreenPoint(target.position);
+        var positon = target != null ? target.position : Vector3.zero;
+        var playerScreenPos = Camera.main.WorldToScreenPoint(positon);
 
         // To Draw to Image to Full Screen, we get the Canvas Rect size
         var canvasRect = _canvas.GetComponent<RectTransform>().rect;

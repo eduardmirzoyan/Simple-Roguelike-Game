@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   name: Player
-  maxHealth: 3
-  currentHealth: 3
-  maxPosture: 2
-  currentPosture: 2
+  maxHealth: 2
+  currentHealth: 2
+  maxPosture: 3
+  currentPosture: 3
   canRecoverPosture: 0
   weapons:
   - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}

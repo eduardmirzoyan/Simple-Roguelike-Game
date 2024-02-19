@@ -26,6 +26,7 @@ public class GameEvents : MonoBehaviour
     public event Action<EnemyData> onEntityInspect;
 
     public event Action<EnemyData> onEnemyChangeState;
+    public event Action<int> onGameOver;
 
     public static GameEvents instance;
     private void Awake()
@@ -102,5 +103,10 @@ public class GameEvents : MonoBehaviour
     public void TriggerOnEnemyChangeState(EnemyData enemyData)
     {
         onEnemyChangeState?.Invoke(enemyData);
+    }
+
+    public void TriggerOnGameOver(int score)
+    {
+        onGameOver?.Invoke(score);
     }
 }
