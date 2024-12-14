@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -14,6 +11,7 @@ public class PreviewManager : MonoBehaviour
     [SerializeField] private RuleTile previewTile;
     [SerializeField] private Tile selectTile;
     [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private GameObject damagePreviewPrefab;
 
     [Header("Settings")]
     [SerializeField] private int numLinePoints;
@@ -24,7 +22,9 @@ public class PreviewManager : MonoBehaviour
     [SerializeField, ReadOnly] private Vector3Int previousPosition;
     [SerializeField, ReadOnly] private bool isPreviewing;
 
-    private Dictionary<Vector3Int, int> validPositions;
+    private HashSet<Vector3Int> validPositions;
+    private List<DamagePreview> previews;
+    private const int LEFT_CLICK = 0, RIGHT_CLIK = 1;
 
     public static PreviewManager instance;
     private void Awake()
@@ -37,7 +37,8 @@ public class PreviewManager : MonoBehaviour
         }
         instance = this;
 
-        validPositions = new Dictionary<Vector3Int, int>();
+        validPositions = new();
+        previews = new();
     }
 
     private void Update()
@@ -45,83 +46,51 @@ public class PreviewManager : MonoBehaviour
         if (!isPreviewing)
             return;
 
-        var mouseCellPosition = PlayerMananger.instance.GetMousePosition();
+        var currentPosition = PlayerMananger.instance.GetMousePosition();
 
-        // If in range of valid tiles (and not itself)
-        if (validPositions.ContainsKey(mouseCellPosition) && mouseCellPosition != entityData.tileData.position)
+        // === THIS LOGIC SHOULD BE MOVED TO PLAYER MANAGER ===
+        if (Input.GetMouseButtonDown(LEFT_CLICK)) // Left click to confirm
         {
-            // Different position
-            if (mouseCellPosition != previousPosition)
-            {
-                selectTilemap.SetTile(previousPosition, null);
-                selectTilemap.SetTile(mouseCellPosition, selectTile);
-                previousPosition = mouseCellPosition;
-
-                DrawLine(entityData.tileData.position, mouseCellPosition);
-
-                // Preview damage
-                PreviewDamage(mouseCellPosition);
-            }
-        }
-        else // If not in range
-        {
-            mouseCellPosition = Vector3Int.back;
-
-            if (mouseCellPosition != previousPosition)
-            {
-                DamagePreviewUI.instance.Hide();
-                lineRenderer.enabled = false;
-                selectTilemap.SetTile(previousPosition, null);
-                previousPosition = mouseCellPosition;
-            }
-        }
-
-        if (Input.GetMouseButtonDown(0)) // Left click to confirm
-        {
-            if (previousPosition != Vector3Int.back)
+            if (currentPosition != Vector3Int.back)
             {
                 // Attack
-                GameManager.instance.EntityPerformAttack(entityData, weaponIndex, previousPosition);
+                GameManager.instance.EntityPerformAttack(entityData, weaponIndex, currentPosition);
             }
-
         }
-        else if (Input.GetMouseButtonDown(1)) // Right click to cancel
+        else if (Input.GetMouseButtonDown(RIGHT_CLIK)) // Right click to cancel
         {
             // Cancel
             GameManager.instance.EntityCancelAttack(entityData, weaponIndex);
         }
-    }
+        // ===
 
-    private void PreviewDamage(Vector3Int position)
-    {
-        var tiles = entityData.worldData.tiles;
+        // If same position then do nothing
+        if (currentPosition == previousPosition)
+            return;
 
-        var targetData = tiles[position.x, position.y].entityData;
-        if (targetData != null)
+        // If in range of valid tiles (and not itself)
+        if (validPositions.Contains(currentPosition) && currentPosition != entityData.tileData.position)
         {
             var weapon = entityData.weapons[weaponIndex];
-
-            var worldPositon = selectTilemap.GetCellCenterWorld(position);
-            var damage = weapon.CalculateDamage(entityData, targetData);
-            var color = damage > weapon.damage ? Color.yellow : Color.white;
-
-            DamagePreviewUI.instance.Show(damage, color, worldPositon);
+            DrawPreviewArea(currentPosition, entityData, weapon);
         }
-        else
+        else // If not, then clear
         {
-            DamagePreviewUI.instance.Hide();
+            ClearPreviewArea();
         }
 
+        // Update previous
+        previousPosition = currentPosition;
     }
 
     public void ShowPreview(EntityData entityData, int weaponIndex)
     {
         this.entityData = entityData;
         this.weaponIndex = weaponIndex;
+        previousPosition = Vector3Int.back;
 
         // Range based on weapon
         int range = entityData.weapons[weaponIndex].range;
-
         var tiles = entityData.worldData.tiles;
 
         Vector3Int startPosition = entityData.tileData.position;
@@ -134,7 +103,7 @@ public class PreviewManager : MonoBehaviour
                 if (tiles[position.x, position.y].type != TileType.Wall)
                 {
                     previewTilemap.SetTile(position, previewTile);
-                    validPositions[position] = 1;
+                    validPositions.Add(position);
                 }
             }
         }
@@ -144,7 +113,37 @@ public class PreviewManager : MonoBehaviour
 
     public void CancelPreview()
     {
-        ResetPreview();
+        entityData = null;
+        weaponIndex = -1;
+        previousPosition = Vector3Int.back;
+        validPositions.Clear();
+        previewTilemap.ClearAllTiles();
+        ClearPreviewArea();
+        isPreviewing = false;
+    }
+
+    #region Helpers
+
+    private void DrawPreviewArea(Vector3Int position, EntityData entityData, WeaponData weaponData)
+    {
+        // Highlight affected area
+        var targets = weaponData.CalculateArea(entityData, position);
+        foreach (var target in targets)
+            selectTilemap.SetTile(target, selectTile);
+
+        // Draw to target
+        lineRenderer.enabled = true;
+        DrawLine(entityData.tileData.position, position);
+
+        // Preview damage at targets
+        ShowDamagePreview(entityData, weaponData, targets);
+    }
+
+    private void ClearPreviewArea()
+    {
+        selectTilemap.ClearAllTiles();
+        lineRenderer.enabled = false;
+        ClearDamagePreview();
     }
 
     private void DrawLine(Vector3Int start, Vector3Int end)
@@ -158,20 +157,44 @@ public class PreviewManager : MonoBehaviour
             Vector3 worldPosition = Vector3.Lerp(startWorld, endWorld, (float)i / numLinePoints);
             lineRenderer.SetPosition(i, worldPosition);
         }
-
-        lineRenderer.enabled = true;
     }
 
-    private void ResetPreview()
+    private void ShowDamagePreview(EntityData entityData, WeaponData weaponData, Vector3Int[] positions)
     {
-        DamagePreviewUI.instance.Hide();
-        entityData = null;
-        weaponIndex = -1;
-        previousPosition = Vector3Int.back;
-        lineRenderer.enabled = false;
-        validPositions.Clear();
-        previewTilemap.ClearAllTiles();
-        selectTilemap.ClearAllTiles();
-        isPreviewing = false;
+        var tiles = entityData.worldData.tiles;
+
+        foreach (var position in positions)
+        {
+            var targetData = tiles[position.x, position.y].entityData;
+            if (targetData != null)
+            {
+                var worldPositon = selectTilemap.GetCellCenterWorld(position);
+                var damage = weaponData.CalculateDamage(entityData, targetData);
+
+                Color color;
+                if (damage < weaponData.damage)
+                    color = Color.gray;
+                else if (damage > weaponData.damage)
+                    color = Color.yellow;
+                else
+                    color = Color.white;
+
+                var preview = Instantiate(damagePreviewPrefab, worldPositon, Quaternion.identity).GetComponent<DamagePreview>();
+                preview.Initialize(damage, color);
+
+                previews.Add(preview);
+            }
+        }
     }
+
+    private void ClearDamagePreview()
+    {
+        foreach (var preview in previews)
+        {
+            Destroy(preview.gameObject);
+        }
+        previews.Clear();
+    }
+
+    #endregion
 }

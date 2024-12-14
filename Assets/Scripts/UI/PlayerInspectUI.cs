@@ -7,8 +7,8 @@ public class PlayerInspectUI : MonoBehaviour
 {
     [Header("Basic")]
     [SerializeField] private TextMeshProUGUI nameLabel;
-    [SerializeField] private ResourcebarUI guardbar;
     [SerializeField] private ResourcebarUI healthbar;
+    [SerializeField] private ResourcebarUI focusbar;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private PlayerData playerData;
@@ -25,28 +25,32 @@ public class PlayerInspectUI : MonoBehaviour
         instance = this;
     }
 
-    private void OnDestroy()
+    private void Start()
     {
-        GameEvents.instance.onEntityResourceChange -= UpdateData;
+        GameEvents.instance.OnPlayerEnter += Initialize;
+        GameEvents.instance.OnEntityResourceChange += UpdateData;
     }
 
-    public void Initialize(PlayerData playerData)
+    private void OnDestroy()
+    {
+        GameEvents.instance.OnPlayerEnter -= Initialize;
+        GameEvents.instance.OnEntityResourceChange -= UpdateData;
+    }
+
+    private void Initialize(PlayerData playerData)
     {
         this.playerData = playerData;
         nameLabel.text = playerData.name;
 
-        guardbar.Initialize(playerData.currentPosture, playerData.maxPosture);
-        healthbar.Initialize(playerData.currentHealth, playerData.maxHealth);
-
-        GameEvents.instance.onEntityResourceChange += UpdateData;
+        UpdateData(playerData);
     }
 
     private void UpdateData(EntityData entityData)
     {
         if (playerData == entityData)
         {
-            guardbar.UpdateValue(playerData.currentPosture, playerData.maxPosture);
             healthbar.UpdateValue(playerData.currentHealth, playerData.maxHealth);
+            focusbar.UpdateValue(playerData.currentFocus, playerData.maxFocus);
         }
     }
 }

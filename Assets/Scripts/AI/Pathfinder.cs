@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 public class Pathfinder
 {
-    private static Vector3Int[] DIRECTIONS = new Vector3Int[] { Vector3Int.left, Vector3Int.up, Vector3Int.right, Vector3Int.down };
+    public static readonly Vector3Int[] DIRECTIONS = new Vector3Int[] { Vector3Int.left, Vector3Int.up, Vector3Int.right, Vector3Int.down };
 
     private class Node
     {
@@ -23,11 +22,11 @@ public class Pathfinder
         }
     }
 
-    public List<Vector3Int> FindPath(Vector3Int start, Vector3Int end, WorldData worldData)
+    public static List<Vector3Int> FindPath(Vector3Int start, Vector3Int end, WorldData worldData)
     {
         // Find path using A*
-        var open = new List<Node>(); // Makes sure no copies are kept, idealy should be prio queue
-        var closed = new List<Node>();
+        List<Node> open = new(); // Makes sure no copies are kept, idealy should be prio queue
+        List<Node> closed = new();
 
         var startNode = new Node(start);
 
@@ -88,9 +87,9 @@ public class Pathfinder
         return new List<Vector3Int>();
     }
 
-    private List<Vector3Int> GetValidNeightbors(Vector3Int location, Vector3Int end, WorldData worldData)
+    private static List<Vector3Int> GetValidNeightbors(Vector3Int location, Vector3Int end, WorldData worldData)
     {
-        List<Vector3Int> neighbors = new List<Vector3Int>();
+        List<Vector3Int> neighbors = new();
 
         foreach (var direction in DIRECTIONS)
         {
@@ -114,9 +113,9 @@ public class Pathfinder
         return neighbors;
     }
 
-    private List<Vector3Int> GetFinalPath(Node start, Node end)
+    private static List<Vector3Int> GetFinalPath(Node start, Node end)
     {
-        List<Vector3Int> result = new List<Vector3Int>();
+        List<Vector3Int> result = new();
 
         var current = end;
 

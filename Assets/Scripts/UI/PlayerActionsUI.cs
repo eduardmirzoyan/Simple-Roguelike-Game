@@ -22,7 +22,23 @@ public class PlayerActionsUI : MonoBehaviour
         instance = this;
     }
 
-    public void Initialize(PlayerData playerData)
+    private void Start()
+    {
+        GameEvents.instance.OnPlayerEnter += Initialize;
+        GameEvents.instance.OnAttackSelect += OnAttackSelect;
+        GameEvents.instance.OnAttackCancel += OnAttackCancel;
+        GameEvents.instance.OnActionStart += OnActionStart;
+    }
+
+    private void OnDestroy()
+    {
+        GameEvents.instance.OnPlayerEnter -= Initialize;
+        GameEvents.instance.OnAttackSelect -= OnAttackSelect;
+        GameEvents.instance.OnAttackCancel -= OnAttackCancel;
+        GameEvents.instance.OnActionStart -= OnActionStart;
+    }
+
+    private void Initialize(PlayerData playerData)
     {
         skipActionUI.Initialize(playerData);
         moveActionUI.Initialize(playerData);
@@ -31,17 +47,6 @@ public class PlayerActionsUI : MonoBehaviour
         {
             weaponUIs[i].Initialize(playerData, i);
         }
-
-        GameEvents.instance.onAttackSelect += OnAttackSelect;
-        GameEvents.instance.onAttackCancel += OnAttackCancel;
-        GameEvents.instance.onActionStart += OnActionStart;
-    }
-
-    private void OnDestroy()
-    {
-        GameEvents.instance.onAttackSelect -= OnAttackSelect;
-        GameEvents.instance.onAttackCancel -= OnAttackCancel;
-        GameEvents.instance.onActionStart -= OnActionStart;
     }
 
     private void OnAttackSelect(WeaponData data)

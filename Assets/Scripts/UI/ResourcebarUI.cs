@@ -37,15 +37,15 @@ public class ResourcebarUI : MonoBehaviour
 
     public void UpdateValue(int current, int max)
     {
-        if (max == 0)
-        {
-            barObject.SetActive(false);
-            return;
-        }
-        else
-        {
-            barObject.SetActive(true);
-        }
+        // if (max == 0)
+        // {
+        //     barObject.SetActive(false);
+        //     return;
+        // }
+        // else
+        // {
+        //     barObject.SetActive(true);
+        // }
 
         // Update text immediately
         valueLabel.text = current + " / " + max;

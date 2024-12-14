@@ -26,6 +26,8 @@ public class CameraManager : MonoBehaviour
 
     public void Initialize(Transform target)
     {
+        MapBoundaryManager.instance.GenerateBoundary();
+
         // Set follow target to player
         virtualCamera.m_Follow = target;
 

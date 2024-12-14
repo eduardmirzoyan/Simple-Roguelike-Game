@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class EnemyInspectUI : MonoBehaviour
@@ -10,8 +9,8 @@ public class EnemyInspectUI : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI nameLabel;
     [SerializeField] private TextMeshProUGUI stateLabel;
-    [SerializeField] private ResourcebarUI guardbar;
     [SerializeField] private ResourcebarUI healthbar;
+    [SerializeField] private ResourcebarUI focusbar;
 
     [Header("Stats")]
     [SerializeField] private GameObject statsBar;
@@ -37,16 +36,16 @@ public class EnemyInspectUI : MonoBehaviour
     private void Start()
     {
 
-        GameEvents.instance.onEntityInspect += OnInspect;
-        GameEvents.instance.onEntityResourceChange += UpdateData;
+        GameEvents.instance.OnEntityInspect += OnInspect;
+        GameEvents.instance.OnEntityResourceChange += UpdateData;
 
         canvasGroup.alpha = 0f;
     }
 
     private void OnDestroy()
     {
-        GameEvents.instance.onEntityInspect -= OnInspect;
-        GameEvents.instance.onEntityResourceChange -= UpdateData;
+        GameEvents.instance.OnEntityInspect -= OnInspect;
+        GameEvents.instance.OnEntityResourceChange -= UpdateData;
     }
 
     private void OnInspect(EnemyData enemyData)
@@ -60,15 +59,12 @@ public class EnemyInspectUI : MonoBehaviour
             if (enemyData.ai != null)
             {
                 stateLabel.gameObject.SetActive(true);
-                stateLabel.text = enemyData.ai.state.ToString();
+                stateLabel.text = enemyData.ai.intent.ToString();
             }
             else
                 stateLabel.gameObject.SetActive(false);
 
-            guardbar.Initialize(enemyData.currentPosture, enemyData.maxPosture);
-            healthbar.Initialize(enemyData.currentHealth, enemyData.maxHealth);
-
-            UpdateStats();
+            UpdateData(enemyData);
 
             canvasGroup.alpha = 1f;
         }
@@ -82,22 +78,22 @@ public class EnemyInspectUI : MonoBehaviour
     {
         if (enemyData == entityData)
         {
-            guardbar.UpdateValue(enemyData.currentPosture, enemyData.maxPosture);
             healthbar.UpdateValue(enemyData.currentHealth, enemyData.maxHealth);
+            focusbar.UpdateValue(enemyData.currentFocus, enemyData.maxFocus);
 
-            UpdateStats();
+            UpdateStats(enemyData);
         }
     }
 
-    private void UpdateStats()
+    private void UpdateStats(EnemyData enemyData)
     {
         if (enemyData.weapons.Count > 0)
         {
             statsBar.SetActive(true);
-            var weapon = enemyData.weapons[0];
-            damageLabel.text = weapon.damage + "";
-            rangeLabel.text = weapon.range + "";
-            cooldownLabel.text = weapon.cooldown - 1 + "";
+            var weapon = enemyData.Weapon;
+            damageLabel.text = $"{weapon.damage}";
+            rangeLabel.text = $"{weapon.range}";
+            cooldownLabel.text = $"{weapon.cooldown - 1}";
         }
         else
         {

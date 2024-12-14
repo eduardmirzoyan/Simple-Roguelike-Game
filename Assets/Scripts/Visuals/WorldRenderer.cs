@@ -41,11 +41,7 @@ public class WorldRenderer : MonoBehaviour
     {
         ClearWorld();
 
-        // var worldData = worldGenerator.Generate();
-
         RenderWorld(worldData);
-
-        MapBoundaryManager.instance.GenerateBoundary();
     }
 
     public void ClearWorld()

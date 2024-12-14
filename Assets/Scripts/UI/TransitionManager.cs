@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 public class TransitionManager : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private TransitionUI transitionUI;
+    [SerializeField] private RectTransform blackScreenTransform;
 
     [Header("Data")]
     [SerializeField] private float transitionTime = 1f;
-    private Coroutine coroutine;
 
+    private Coroutine coroutine;
     public static TransitionManager instance;
     private void Awake()
     {
@@ -22,44 +22,26 @@ public class TransitionManager : MonoBehaviour
             return;
         }
         instance = this;
-
-        transitionUI = GetComponent<TransitionUI>();
     }
 
-    public void Initialize(Transform target)
+    public int GetSceneIndex()
     {
-        transitionUI.Initialize(target);
+        return SceneManager.GetActiveScene().buildIndex;
     }
 
     public void OpenScene()
     {
-        transitionUI.OpenBlackScreen();
+        // Play animation
+        LeanTween.moveLocalX(blackScreenTransform.gameObject, -blackScreenTransform.rect.width, transitionTime);
 
-        if (GetSceneIndex() == 0)
-        {
-            // Play title music
-            AudioManager.instance.PlayOST("Background " + 0);
-        }
-        else
-        {
-            // Play background music
-            AudioManager.instance.PlayOST("Background " + 1);
-        }
+        // Play background music
+        AudioManager.instance.PlayOST("Background " + GetSceneIndex());
     }
 
     public void LoadNextScene()
     {
         // Stop any background music
-        if (GetSceneIndex() == 0)
-        {
-            // Play title music
-            AudioManager.instance.StopOST("Background " + 0);
-        }
-        else
-        {
-            // Play background music
-            AudioManager.instance.StopOST("Background " + 1);
-        }
+        AudioManager.instance.StopOST("Background " + GetSceneIndex());
 
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
@@ -68,41 +50,20 @@ public class TransitionManager : MonoBehaviour
         coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
     }
 
-    public void LoadSelectedScene(int buildIndex)
+    public void LoadPreviousScene()
     {
         // Stop any background music
-        if (GetSceneIndex() == 0)
-        {
-            // Play title music
-            AudioManager.instance.StopOST("Background " + 0);
-        }
-        else
-        {
-            // Play background music
-            AudioManager.instance.StopOST("Background " + 1);
-        }
+        AudioManager.instance.StopOST("Background " + GetSceneIndex());
 
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
 
         // Transition to next scene
-        coroutine = StartCoroutine(LoadScene(buildIndex));
+        coroutine = StartCoroutine(LoadScene(SceneManager.GetActiveScene().buildIndex - 1));
     }
 
     public void ReloadScene()
     {
-        // Stop any background music
-        if (GetSceneIndex() == 0)
-        {
-            // Play title music
-            AudioManager.instance.StopOST("Background " + 0);
-        }
-        else
-        {
-            // Play background music
-            AudioManager.instance.StopOST("Background " + 1);
-        }
-
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
 
@@ -113,16 +74,7 @@ public class TransitionManager : MonoBehaviour
     public void LoadMainMenuScene()
     {
         // Stop any background music
-        if (GetSceneIndex() == 0)
-        {
-            // Play title music
-            AudioManager.instance.StopOST("Background " + 0);
-        }
-        else
-        {
-            // Play background music
-            AudioManager.instance.StopOST("Background " + 1);
-        }
+        AudioManager.instance.StopOST("Background " + GetSceneIndex());
 
         // Stop any transition if one was happening
         if (coroutine != null) StopCoroutine(coroutine);
@@ -133,30 +85,15 @@ public class TransitionManager : MonoBehaviour
 
     private IEnumerator LoadScene(int index)
     {
-        transitionUI.CloseBlackScreen();
+        // Play animation
+        LeanTween.cancel(blackScreenTransform.gameObject);
+        LeanTween.moveLocalX(blackScreenTransform.gameObject, blackScreenTransform.rect.width, 0f);
+        LeanTween.moveLocalX(blackScreenTransform.gameObject, 0, transitionTime);
 
         // Wait
         yield return new WaitForSeconds(transitionTime);
 
-        // Check if next scene exists
-        int maxCount = SceneManager.sceneCountInBuildSettings;
-        if (index < maxCount)
-        {
-            // Load scene
-            SceneManager.LoadScene(index);
-        }
-        else
-        {
-            // Debug
-            print("Could not find scene " + index);
-
-            // Load scene 0
-            SceneManager.LoadScene(0);
-        }
-    }
-
-    private int GetSceneIndex()
-    {
-        return SceneManager.GetActiveScene().buildIndex;
+        // Load scene
+        SceneManager.LoadScene(index);
     }
 }

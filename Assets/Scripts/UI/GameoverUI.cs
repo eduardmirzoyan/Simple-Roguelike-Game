@@ -19,12 +19,12 @@ public class GameoverUI : MonoBehaviour
     {
         Hide();
 
-        GameEvents.instance.onGameOver += Show;
+        GameEvents.instance.OnGameOver += Show;
     }
 
     private void OnDestroy()
     {
-        GameEvents.instance.onGameOver -= Show;
+        GameEvents.instance.OnGameOver -= Show;
     }
 
     public void Hide()

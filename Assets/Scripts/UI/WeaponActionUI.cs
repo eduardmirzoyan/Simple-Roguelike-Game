@@ -45,27 +45,26 @@ public class WeaponActionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Vector3 worldPosition = corners[1] + tooltipOffset;
         weaponTooltip = Instantiate(tooltipPrefab, worldPosition, Quaternion.identity, transform).GetComponent<WeaponTooltipUI>();
 
-        GameEvents.instance.onTurnStart += OnTurnStart;
-        GameEvents.instance.onAttackSelect += OnAttackSelect;
-        GameEvents.instance.onAttackCancel += OnAttackCancel;
-        GameEvents.instance.onActionStart += OnActionStart;
+        GameEvents.instance.OnTurnStart += OnTurnStart;
+        GameEvents.instance.OnAttackSelect += OnAttackSelect;
+        GameEvents.instance.OnAttackCancel += OnAttackCancel;
+        GameEvents.instance.OnActionStart += OnActionStart;
 
-        GameEvents.instance.onWeaponPickup += OnPickup;
-        GameEvents.instance.onWeaponDrop += OnDrop;
-        GameEvents.instance.onTurnEnd += OnTurnEnd;
-
+        GameEvents.instance.OnWeaponPickup += OnPickup;
+        GameEvents.instance.OnWeaponDrop += OnDrop;
+        GameEvents.instance.OnTurnEnd += OnTurnEnd;
     }
 
     private void OnDestroy()
     {
-        GameEvents.instance.onTurnStart -= OnTurnStart;
-        GameEvents.instance.onAttackSelect -= OnAttackSelect;
-        GameEvents.instance.onAttackCancel -= OnAttackCancel;
-        GameEvents.instance.onActionStart -= OnActionStart;
+        GameEvents.instance.OnTurnStart -= OnTurnStart;
+        GameEvents.instance.OnAttackSelect -= OnAttackSelect;
+        GameEvents.instance.OnAttackCancel -= OnAttackCancel;
+        GameEvents.instance.OnActionStart -= OnActionStart;
 
-        GameEvents.instance.onWeaponPickup -= OnPickup;
-        GameEvents.instance.onWeaponDrop -= OnDrop;
-        GameEvents.instance.onTurnEnd -= OnTurnEnd;
+        GameEvents.instance.OnWeaponPickup -= OnPickup;
+        GameEvents.instance.OnWeaponDrop -= OnDrop;
+        GameEvents.instance.OnTurnEnd -= OnTurnEnd;
     }
 
     private void OnPickup(int index, WeaponData weaponData, TileData tileData)
@@ -186,6 +185,7 @@ public class WeaponActionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameManager.instance.EntitySelectAttack(entityData, weaponIndex);
+        if (eventData.button == PointerEventData.InputButton.Left)
+            GameManager.instance.EntitySelectAttack(entityData, weaponIndex);
     }
 }

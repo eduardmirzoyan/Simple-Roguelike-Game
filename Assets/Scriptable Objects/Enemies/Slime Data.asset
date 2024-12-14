@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Slime Data
   m_EditorClassIdentifier: 
   name: Slime
-  maxHealth: 3
-  currentHealth: 3
-  maxPosture: 0
-  currentPosture: 0
-  canRecoverPosture: 0
+  maxHealth: 30
+  currentHealth: 30
+  maxFocus: 2
+  currentFocus: 0
   weapons:
-  - {fileID: 11400000, guid: f447b2950e7aba44bbd0b7fe4cf26c2f, type: 2}
+  - {fileID: 11400000, guid: 90fefd2789ae22a4ba4a217742f834f2, type: 2}
   weaponCap: 2
   vision:
     viewDistance: 1

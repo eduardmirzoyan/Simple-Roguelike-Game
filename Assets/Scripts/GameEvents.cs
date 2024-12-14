@@ -5,28 +5,31 @@ using System;
 
 public class GameEvents : MonoBehaviour
 {
-    public event Action<EntityData> onTurnStart;
-    public event Action<EntityData> onTurnEnd;
+    public event Action<WorldData> OnGenerateWorld;
+    public event Action<PlayerData> OnPlayerEnter;
 
-    public event Action<EntityData, TileData> onTileEnter;
+    public event Action<EntityData> OnTurnStart;
+    public event Action<EntityData> OnTurnEnd;
 
-    public event Action<int, WeaponData, TileData> onWeaponDrop;
-    public event Action<int, WeaponData, TileData> onWeaponPickup;
+    public event Action<EntityData, TileData> OnTileEnter;
 
-    public event Action<WeaponData> onAttackSelect;
-    public event Action<WeaponData> onAttackCancel;
+    public event Action<int, WeaponData, TileData> OnWeaponDrop;
+    public event Action<int, WeaponData, TileData> OnWeaponPickup;
 
-    public event Action onActionStart;
-    public event Action onActionEnd;
+    public event Action<WeaponData> OnAttackSelect;
+    public event Action<WeaponData> OnAttackCancel;
 
-    public event Action<EntityData, WeaponData, TileData> onEntityAttackTile;
+    public event Action OnActionStart;
+    public event Action OnActionEnd;
 
-    public event Action<EntityData> onEntityResourceChange;
+    public event Action<EntityData, WeaponData, TileData> OnEntityAttackTile;
 
-    public event Action<EnemyData> onEntityInspect;
+    public event Action<EntityData> OnEntityResourceChange;
 
-    public event Action<EnemyData> onEnemyChangeState;
-    public event Action<int> onGameOver;
+    public event Action<EnemyData> OnEntityInspect;
+
+    public event Action<EnemyData> OnEnemyIntent;
+    public event Action<int> OnGameOver;
 
     public static GameEvents instance;
     private void Awake()
@@ -40,73 +43,83 @@ public class GameEvents : MonoBehaviour
         instance = this;
     }
 
+    public void TriggerOnEnterWorld(WorldData worldData)
+    {
+        OnGenerateWorld?.Invoke(worldData);
+    }
+
+    public void TriggerOnPlayerEnter(PlayerData playerData)
+    {
+        OnPlayerEnter?.Invoke(playerData);
+    }
+
     public void TriggerOnTurnStart(EntityData entityData)
     {
-        onTurnStart?.Invoke(entityData);
+        OnTurnStart?.Invoke(entityData);
     }
 
     public void TriggerOnTurnEnd(EntityData entityData)
     {
-        onTurnEnd?.Invoke(entityData);
+        OnTurnEnd?.Invoke(entityData);
     }
 
     public void TriggerOnTileEnter(EntityData entityData, TileData tileData)
     {
-        onTileEnter?.Invoke(entityData, tileData);
+        OnTileEnter?.Invoke(entityData, tileData);
     }
 
     public void TriggerOnAttackSelect(WeaponData weaponData)
     {
-        onAttackSelect?.Invoke(weaponData);
+        OnAttackSelect?.Invoke(weaponData);
     }
 
     public void TriggerOnAttackCancel(WeaponData weaponData)
     {
-        onAttackCancel?.Invoke(weaponData);
+        OnAttackCancel?.Invoke(weaponData);
     }
 
     public void TriggerOnActionStart()
     {
-        onActionStart?.Invoke();
+        OnActionStart?.Invoke();
     }
 
     public void TriggerOnActionEnd()
     {
-        onActionEnd?.Invoke();
+        OnActionEnd?.Invoke();
     }
 
     public void TriggerOnWeaponDrop(int index, WeaponData weaponData, TileData tileData)
     {
-        onWeaponDrop?.Invoke(index, weaponData, tileData);
+        OnWeaponDrop?.Invoke(index, weaponData, tileData);
     }
 
     public void TriggerOnWeaponPickup(int index, WeaponData weaponData, TileData tileData)
     {
-        onWeaponPickup?.Invoke(index, weaponData, tileData);
+        OnWeaponPickup?.Invoke(index, weaponData, tileData);
     }
 
     public void TriggerOnEntityAttackTile(EntityData entityData, WeaponData weaponData, TileData tileData)
     {
-        onEntityAttackTile?.Invoke(entityData, weaponData, tileData);
+        OnEntityAttackTile?.Invoke(entityData, weaponData, tileData);
     }
 
     public void TriggerOnEntityResourceChange(EntityData entityData)
     {
-        onEntityResourceChange?.Invoke(entityData);
+        OnEntityResourceChange?.Invoke(entityData);
     }
 
     public void TriggerOnEnemyInspect(EnemyData enemyData)
     {
-        onEntityInspect?.Invoke(enemyData);
+        OnEntityInspect?.Invoke(enemyData);
     }
 
-    public void TriggerOnEnemyChangeState(EnemyData enemyData)
+    public void TriggerOnEnemyIntent(EnemyData enemyData)
     {
-        onEnemyChangeState?.Invoke(enemyData);
+        OnEnemyIntent?.Invoke(enemyData);
     }
 
     public void TriggerOnGameOver(int score)
     {
-        onGameOver?.Invoke(score);
+        OnGameOver?.Invoke(score);
     }
 }

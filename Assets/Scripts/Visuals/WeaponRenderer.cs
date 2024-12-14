@@ -23,19 +23,19 @@ public class WeaponRenderer : MonoBehaviour
         this.weaponData = weaponData;
         spriteRenderer.sprite = weaponData.sprite;
 
-        gameObject.name = weaponData.name + " Drop";
+        gameObject.name = $"{weaponData.name} Drop";
 
         StartCoroutine(Animation());
 
-        GameEvents.instance.onWeaponDrop += OnDrop;
-        GameEvents.instance.onWeaponPickup += OnPickup;
-        GameEvents.instance.onTileEnter += OnTileEnter;
+        GameEvents.instance.OnWeaponDrop += OnDrop;
+        GameEvents.instance.OnWeaponPickup += OnPickup;
+        GameEvents.instance.OnTileEnter += OnTileEnter;
     }
     private void OnDestroy()
     {
-        GameEvents.instance.onWeaponDrop -= OnDrop;
-        GameEvents.instance.onWeaponPickup -= OnPickup;
-        GameEvents.instance.onTileEnter -= OnTileEnter;
+        GameEvents.instance.OnWeaponDrop -= OnDrop;
+        GameEvents.instance.OnWeaponPickup -= OnPickup;
+        GameEvents.instance.OnTileEnter -= OnTileEnter;
     }
 
     private void OnDrop(int _, WeaponData weaponData, TileData __)

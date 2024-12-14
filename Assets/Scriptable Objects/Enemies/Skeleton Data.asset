@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Skeleton Data
   m_EditorClassIdentifier: 
   name: Skeleton
-  maxHealth: 2
-  currentHealth: 2
-  maxPosture: 1
-  currentPosture: 1
-  canRecoverPosture: 0
+  maxHealth: 50
+  currentHealth: 50
+  maxFocus: 2
+  currentFocus: 0
   weapons:
-  - {fileID: 11400000, guid: f447b2950e7aba44bbd0b7fe4cf26c2f, type: 2}
+  - {fileID: 11400000, guid: 7e9d5746731981e49b0ef67cbee8a4c1, type: 2}
   weaponCap: 2
   vision:
     viewDistance: 1

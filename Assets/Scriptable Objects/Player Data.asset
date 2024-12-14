@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Player Data
   m_EditorClassIdentifier: 
   name: Player
-  maxHealth: 2
-  currentHealth: 2
+  maxHealth: 100
+  currentHealth: 100
   maxPosture: 3
   currentPosture: 3
   canRecoverPosture: 0
+  maxFocus: 2
+  currentFocus: 0
   weapons:
-  - {fileID: 11400000, guid: 3816fc368c8dc314386424a6a14bb246, type: 2}
+  - {fileID: 11400000, guid: 7e9d5746731981e49b0ef67cbee8a4c1, type: 2}
   - {fileID: 0}
   weaponCap: 2
   vision:

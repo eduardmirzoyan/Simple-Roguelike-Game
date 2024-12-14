@@ -20,7 +20,6 @@ public class MainMenuManager : MonoBehaviour
     private void Start()
     {
         // Open scene in center
-        TransitionManager.instance.Initialize(transform);
         TransitionManager.instance.OpenScene();
     }
 

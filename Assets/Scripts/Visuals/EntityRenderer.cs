@@ -6,7 +6,7 @@ public class EntityRenderer : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator aggroAnimator;
+    [SerializeField] private EntityUI entityUI;
 
     [Header("Animation")]
     [SerializeField] private Sprite[] animationSprites;
@@ -17,9 +17,6 @@ public class EntityRenderer : MonoBehaviour
     [SerializeField] private float deathFrameDuration;
 
     [Header("Settings")]
-    [SerializeField] private float waitDuration = 0.5f;
-    [SerializeField] private float moveDuration = 0.5f;
-    [SerializeField] private float attackDuration = 0.25f;
     [SerializeField] private float leanAngle;
     [SerializeField] private float attackPower;
     [SerializeField] private float hitStrength;
@@ -36,6 +33,8 @@ public class EntityRenderer : MonoBehaviour
     public void Initialize(EntityData entityData)
     {
         this.entityData = entityData;
+        entityUI.Initialize(entityData);
+
         animationSprites = entityData.idleSprites;
         entityData.entityRenderer = this;
         spriteRenderer.sprite = animationSprites[0];
@@ -134,12 +133,12 @@ public class EntityRenderer : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public IEnumerator WaitOverTime()
+    public IEnumerator WaitOverTime(float duration)
     {
-        yield return new WaitForSeconds(waitDuration);
+        yield return new WaitForSeconds(duration);
     }
 
-    public IEnumerator MoveOverTime(Vector3Int direction)
+    public IEnumerator MoveOverTime(Vector3Int direction, float duration)
     {
         Vector3 start = transform.position;
         Vector3 end = transform.position + direction;
@@ -159,8 +158,8 @@ public class EntityRenderer : MonoBehaviour
         InvokeRepeating(nameof(FootstepsSFX), 0f, moveSFXRate);
 
         // Move over time
-        LeanTween.move(gameObject, end, moveDuration).setEaseInOutSine();
-        yield return new WaitForSeconds(moveDuration);
+        LeanTween.move(gameObject, end, duration).setEaseInOutSine();
+        yield return new WaitForSeconds(duration);
         LeanTween.cancel(gameObject);
 
         // Stop sound
@@ -172,15 +171,15 @@ public class EntityRenderer : MonoBehaviour
         animationRoutine = StartCoroutine(IdleAnimation());
     }
 
-    public IEnumerator MeleeOverTime(TileData tileData)
+    public IEnumerator MeleeOverTime(TileData tileData, float duration)
     {
         Vector3 direction = tileData.position - entityData.tileData.position;
         direction.Normalize();
 
         FaceDirection(Vector3Int.RoundToInt(direction));
 
-        LeanTween.move(gameObject, transform.position + direction * attackPower, attackDuration).setEasePunch();
-        yield return new WaitForSeconds(attackDuration);
+        LeanTween.move(gameObject, transform.position + direction * attackPower, duration).setEasePunch();
+        yield return new WaitForSeconds(duration);
         LeanTween.cancel(gameObject);
     }
 
@@ -194,14 +193,6 @@ public class EntityRenderer : MonoBehaviour
     {
         AudioManager.instance.PlaySFX("Die");
         animationRoutine = StartCoroutine(DeathAnimation());
-    }
-
-    public void Aggro(bool state)
-    {
-        if (state)
-            aggroAnimator.Play("Fade In");
-        else
-            aggroAnimator.Play("Fade Out");
     }
 
     private void FaceDirection(Vector3Int direction)

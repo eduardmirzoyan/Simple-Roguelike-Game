@@ -19,18 +19,18 @@ public class MoveActionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         this.playerData = playerData;
 
-        GameEvents.instance.onTurnStart += OnTurnStart;
-        GameEvents.instance.onAttackSelect += OnAttackSelect;
-        GameEvents.instance.onAttackCancel += OnAttackCancel;
-        GameEvents.instance.onActionStart += OnActionStart;
+        GameEvents.instance.OnTurnStart += OnTurnStart;
+        GameEvents.instance.OnAttackSelect += OnAttackSelect;
+        GameEvents.instance.OnAttackCancel += OnAttackCancel;
+        GameEvents.instance.OnActionStart += OnActionStart;
     }
 
     private void OnDestroy()
     {
-        GameEvents.instance.onTurnStart -= OnTurnStart;
-        GameEvents.instance.onAttackSelect -= OnAttackSelect;
-        GameEvents.instance.onAttackCancel -= OnAttackCancel;
-        GameEvents.instance.onActionStart -= OnActionStart;
+        GameEvents.instance.OnTurnStart -= OnTurnStart;
+        GameEvents.instance.OnAttackSelect -= OnAttackSelect;
+        GameEvents.instance.OnAttackCancel -= OnAttackCancel;
+        GameEvents.instance.OnActionStart -= OnActionStart;
     }
 
     private void OnTurnStart(EntityData data)
