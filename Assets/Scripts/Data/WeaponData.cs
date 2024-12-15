@@ -10,17 +10,26 @@ public abstract class WeaponData : ScriptableObject
     public Sprite sprite;
 
     [Header("Weapon Data")]
-    public int damage;
+    public Vector2Int damageRange;
     public int range;
-    public int cooldown;
 
     [Header("Runtime Data")]
     [ReadOnly] public WeaponRenderer renderer;
-    [ReadOnly] public int cooldownTimer;
 
-    public virtual int CalculateDamage(EntityData holderData, EntityData targetData)
+    public Vector2Int GetTrueDamageRange(EntityData holderData)
     {
-        return damage;
+        int damageMultiplier = 1;
+        if (holderData.currentFocus > 0)
+            damageMultiplier = 2;
+
+        return damageMultiplier * damageRange;
+    }
+
+    public virtual int CalculateDamage(EntityData holderData)
+    {
+        var range = GetTrueDamageRange(holderData);
+
+        return Random.Range(range.x, range.y);
     }
 
     public virtual Vector3Int[] CalculateArea(EntityData holderData, Vector3Int position)

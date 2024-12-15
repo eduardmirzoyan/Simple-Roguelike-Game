@@ -15,10 +15,10 @@ MonoBehaviour:
   name: Bat
   maxHealth: 25
   currentHealth: 25
-  maxFocus: 2
+  maxFocus: 1
   currentFocus: 0
   weapons:
-  - {fileID: 11400000, guid: 90fefd2789ae22a4ba4a217742f834f2, type: 2}
+  - {fileID: 11400000, guid: 5ef38d5f61db9c24abcfbe6ce14e3e4a, type: 2}
   weaponCap: 2
   vision:
     viewDistance: 1

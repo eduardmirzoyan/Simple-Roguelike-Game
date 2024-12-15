@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8351358869187518254}
   - component: {fileID: 8943248798776134742}
   m_Layer: 0
-  m_Name: Focus Orb
+  m_Name: Focus Socket (Mini)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -8,9 +8,9 @@ public class DamagePreview : MonoBehaviour
     [Header("Components")]
     [SerializeField] private TextMeshPro damageText;
 
-    public void Initialize(int damage, Color color)
+    public void Initialize(Vector2Int damageRange, Color color)
     {
-        damageText.text = damage.ToString();
+        damageText.text = $"{damageRange.x}-{damageRange.y}";
         damageText.color = color;
     }
 }

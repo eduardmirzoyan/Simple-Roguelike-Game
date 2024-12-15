@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class EnemyInspectUI : MonoBehaviour
 {
@@ -10,13 +11,7 @@ public class EnemyInspectUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameLabel;
     [SerializeField] private TextMeshProUGUI stateLabel;
     [SerializeField] private ResourcebarUI healthbar;
-    [SerializeField] private ResourcebarUI focusbar;
-
-    [Header("Stats")]
-    [SerializeField] private GameObject statsBar;
-    [SerializeField] private TextMeshProUGUI damageLabel;
-    [SerializeField] private TextMeshProUGUI rangeLabel;
-    [SerializeField] private TextMeshProUGUI cooldownLabel;
+    [SerializeField] private FocusBarUI focusBar;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private EnemyData enemyData;
@@ -57,14 +52,14 @@ public class EnemyInspectUI : MonoBehaviour
             nameLabel.text = enemyData.name;
 
             if (enemyData.ai != null)
-            {
-                stateLabel.gameObject.SetActive(true);
-                stateLabel.text = enemyData.ai.intent.ToString();
-            }
+                stateLabel.text = $"Intent: <color=yellow>{enemyData.ai.intent}</color>";
             else
-                stateLabel.gameObject.SetActive(false);
+                stateLabel.text = "Inanimate";
 
             UpdateData(enemyData);
+
+            focusBar.Uninitialize();
+            focusBar.Initialize(enemyData);
 
             canvasGroup.alpha = 1f;
         }
@@ -76,28 +71,10 @@ public class EnemyInspectUI : MonoBehaviour
 
     private void UpdateData(EntityData entityData)
     {
-        if (enemyData == entityData)
-        {
-            healthbar.UpdateValue(enemyData.currentHealth, enemyData.maxHealth);
-            focusbar.UpdateValue(enemyData.currentFocus, enemyData.maxFocus);
+        if (enemyData != entityData)
+            return;
 
-            UpdateStats(enemyData);
-        }
-    }
-
-    private void UpdateStats(EnemyData enemyData)
-    {
-        if (enemyData.weapons.Count > 0)
-        {
-            statsBar.SetActive(true);
-            var weapon = enemyData.Weapon;
-            damageLabel.text = $"{weapon.damage}";
-            rangeLabel.text = $"{weapon.range}";
-            cooldownLabel.text = $"{weapon.cooldown - 1}";
-        }
-        else
-        {
-            statsBar.SetActive(false);
-        }
+        healthbar.UpdateValue(enemyData.currentHealth, enemyData.maxHealth);
+        focusBar.UpdateFocus(entityData);
     }
 }

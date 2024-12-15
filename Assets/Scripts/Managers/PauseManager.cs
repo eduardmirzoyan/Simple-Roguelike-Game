@@ -20,7 +20,7 @@ public class PauseManager : MonoBehaviour
     private void Awake()
     {
         // Singleton logic
-        if (PauseManager.instance != null)
+        if (instance != null)
         {
             Destroy(this);
             return;

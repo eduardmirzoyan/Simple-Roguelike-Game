@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 647c078f63ac8e241b56c7bf01d04af4, type: 3}
-  m_Name: Slime Weapon
+  m_Name: Mace Weapon
   m_EditorClassIdentifier: 
   name: Slime
-  description: 
-  sprite: {fileID: 0}
-  damage: 5
+  description: '1+ <sprite name="Focus"/>: 2x DMG
+
+    Max <sprite name="Focus"/>:
+    AoE'
+  sprite: {fileID: 21300000, guid: 2d56cce8ec4ef8743a9561077529361e, type: 3}
+  damageRange: {x: 4, y: 6}
   range: 1
-  cooldown: 0
   renderer: {fileID: 0}
-  cooldownTimer: 0

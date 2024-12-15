@@ -15,10 +15,6 @@ public class WeaponActionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private TextMeshProUGUI hotKeyLabel;
     [SerializeField] private GameObject tooltipPrefab;
 
-    [Header("Cooldown")]
-    [SerializeField] private Image crossIcon;
-    [SerializeField] private TextMeshProUGUI cooldownLabel;
-
     [Header("Settings")]
     [SerializeField] private Vector3 tooltipOffset;
     [SerializeField] private int weaponIndex;
@@ -140,29 +136,9 @@ public class WeaponActionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (this.entityData == entityData)
         {
-            UpdateCooldown();
-
             // Set Faded
             canvasGroup.alpha = 0.6f;
             outlineImage.enabled = false;
-        }
-    }
-
-    private void UpdateCooldown()
-    {
-        if (weaponData == null)
-            return;
-
-        if (weaponData.cooldownTimer > 0)
-        {
-            crossIcon.enabled = true;
-            cooldownLabel.enabled = true;
-            cooldownLabel.text = "" + weaponData.cooldownTimer;
-        }
-        else
-        {
-            crossIcon.enabled = false;
-            cooldownLabel.enabled = false;
         }
     }
 

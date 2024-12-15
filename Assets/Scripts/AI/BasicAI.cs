@@ -10,8 +10,8 @@ public class BasicAI : AI
     public override void CalculateIntent(EnemyData enemyData, WorldData worldData)
     {
         var playerData = worldData.player;
-        Vector3Int enemyPosition = enemyData.tileData.position;
-        Vector3Int targetPosition = playerData.tileData.position;
+        Vector3Int enemyPosition = enemyData.Position;
+        Vector3Int targetPosition = playerData.Position;
         var weapon = enemyData.Weapon;
 
         switch (intent)

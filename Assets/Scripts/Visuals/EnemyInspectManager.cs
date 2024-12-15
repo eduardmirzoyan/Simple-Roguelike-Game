@@ -35,24 +35,24 @@ public class EnemyInspectManager : MonoBehaviour
         // If we have a previous enemy, clear it (or input null)
         if (this.enemyData != null)
         {
-            GameEvents.instance.TriggerOnEnemyInspect(null);
-
-            inspectTilemap.ClearAllTiles();
-
-            this.enemyData = null;
+            ResetInspect();
         }
 
         // If we have a new enemy
         if (tileData.entityData is EnemyData)
         {
             var enemyData = tileData.entityData as EnemyData;
-            var tiles = enemyData.worldData.tiles;
+            var enemyPosition = enemyData.Position;
 
-            GameEvents.instance.TriggerOnEnemyInspect(enemyData);
+            // Highlight tile enemy is on
+            inspectTilemap.SetTile(enemyPosition, highlightTile);
+            inspectTilemap.SetTileFlags(enemyPosition, TileFlags.None);
+            inspectTilemap.SetColor(enemyPosition, highlightColor);
 
-            foreach (var position in enemyData.vision.visiblePositions.Keys)
+            // Highlight any threatened positions
+            if (enemyData.ai != null)
             {
-                if (tiles[position.x, position.y].type != TileType.Wall)
+                foreach (var position in enemyData.ai.threatenedPositions)
                 {
                     inspectTilemap.SetTile(position, highlightTile);
                     inspectTilemap.SetTileFlags(position, TileFlags.None);
@@ -61,6 +61,9 @@ public class EnemyInspectManager : MonoBehaviour
             }
 
             this.enemyData = enemyData;
+
+            // Trigger related event
+            GameEvents.instance.TriggerOnEnemyInspect(enemyData);
         }
     }
 

@@ -8,6 +8,7 @@ public abstract class AI : ScriptableObject
 {
     [ReadOnly] public Intent intent;
     [ReadOnly] public Vector3Int attackPosition;
+    [ReadOnly] public List<Vector3Int> threatenedPositions = new();
 
     public abstract void CalculateIntent(EnemyData enemyData, WorldData worldData);
 

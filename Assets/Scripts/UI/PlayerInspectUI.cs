@@ -8,7 +8,7 @@ public class PlayerInspectUI : MonoBehaviour
     [Header("Basic")]
     [SerializeField] private TextMeshProUGUI nameLabel;
     [SerializeField] private ResourcebarUI healthbar;
-    [SerializeField] private ResourcebarUI focusbar;
+    [SerializeField] private FocusBarUI focusBar;
 
     [Header("Debug")]
     [SerializeField, ReadOnly] private PlayerData playerData;
@@ -42,6 +42,8 @@ public class PlayerInspectUI : MonoBehaviour
         this.playerData = playerData;
         nameLabel.text = playerData.name;
 
+        focusBar.Initialize(playerData);
+
         UpdateData(playerData);
     }
 
@@ -50,7 +52,7 @@ public class PlayerInspectUI : MonoBehaviour
         if (playerData == entityData)
         {
             healthbar.UpdateValue(playerData.currentHealth, playerData.maxHealth);
-            focusbar.UpdateValue(playerData.currentFocus, playerData.maxFocus);
+            focusBar.UpdateFocus(entityData);
         }
     }
 }

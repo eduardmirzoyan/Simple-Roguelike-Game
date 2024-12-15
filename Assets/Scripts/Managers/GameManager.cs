@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -131,8 +133,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator HandleEnemyAction(EnemyData enemyData, AI ai)
     {
-        Vector3Int enemyPosition = enemyData.tileData.position;
-        Vector3Int playerPosition = worldData.player.tileData.position;
+        Vector3Int enemyPosition = enemyData.Position;
+        Vector3Int playerPosition = worldData.player.Position;
 
         switch (ai.intent)
         {
@@ -180,7 +182,9 @@ public class GameManager : MonoBehaviour
 
                 yield return AttackPositionsOverTime(enemyData, weapon, tileData, targets);
 
+                enemyData.ai.threatenedPositions.Clear();
                 IntentManager.instance.Clear(targets);
+
                 break;
             default:
                 throw new System.Exception("Unhandled Enemy state: " + ai.intent);
@@ -199,6 +203,8 @@ public class GameManager : MonoBehaviour
             // Project attack area
             var weapon = enemyData.Weapon;
             var targets = weapon.CalculateArea(enemyData, enemyData.ai.attackPosition);
+
+            enemyData.ai.threatenedPositions = targets.ToList();
             IntentManager.instance.Target(targets);
         }
 
@@ -208,8 +214,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndTurn()
     {
         if (logGameStates) print($"Turn End: {currentEntity.name}");
-
-        EntityReduceCooldowns(currentEntity);
 
         GameEvents.instance.TriggerOnTurnEnd(currentEntity);
 
@@ -297,7 +301,7 @@ public class GameManager : MonoBehaviour
             return false;
 
         // Calculate new position
-        Vector3Int newPosition = entityData.tileData.position + direction;
+        Vector3Int newPosition = entityData.Position + direction;
 
         // Check bounds
         if (WorldGenerator.OutOfBounds(newPosition, worldData.tiles))
@@ -330,7 +334,7 @@ public class GameManager : MonoBehaviour
         // Trigger event
         GameEvents.instance.TriggerOnActionStart();
 
-        Vector3Int newPosition = entityData.tileData.position + direction;
+        Vector3Int newPosition = entityData.Position + direction;
         TileData newTile = worldData.GetTile(newPosition);
 
         StartCoroutine(MoveToTileOverTime(entityData, newTile));
@@ -339,7 +343,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator MoveToTileOverTime(EntityData entityData, TileData destinationTile)
     {
         // Handle visuals
-        Vector3Int direction = destinationTile.position - entityData.tileData.position;
+        Vector3Int direction = destinationTile.position - entityData.Position;
         yield return entityData.entityRenderer.MoveOverTime(direction, gameSpeedData.moveDuration);
 
         // Set new location for entity
@@ -380,13 +384,6 @@ public class GameManager : MonoBehaviour
         var weapon = entityData.weapons[weaponIndex];
         if (weapon != null)
         {
-            // If weapon on cooldown
-            if (weapon.cooldownTimer > 0)
-            {
-                print($"Weapon is on cooldown.");
-                return;
-            }
-
             // If weapon already selected
             if (selectedWeapon != null)
             {
@@ -463,14 +460,24 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator AttackPositionsOverTime(EntityData entityData, WeaponData weaponData, TileData targetTile, Vector3Int[] positions)
     {
+        // Trigger related event
         GameEvents.instance.TriggerOnEntityAttackTile(entityData, weaponData, targetTile);
 
         // Deal damage with weapon
         foreach (var position in positions)
         {
             TileData tile = worldData.GetTile(position);
-            if (tile.entityData != null)
-                EntityTakeDamage(tile.entityData, weaponData.CalculateDamage(entityData, tile.entityData), entityData);
+            EntityData targetData = tile.entityData;
+            if (targetData != null)
+            {
+                // If enemy is attacking enemy, then skip
+                if (entityData is EnemyData && targetData is EnemyData)
+                    continue;
+
+                // Deal damage
+                int damage = weaponData.CalculateDamage(entityData);
+                EntityTakeDamage(targetData, damage, entityData);
+            }
         }
 
         // Handle visuals
@@ -478,9 +485,6 @@ public class GameManager : MonoBehaviour
 
         // Use with weapon
         weaponData.Use();
-
-        // Set cooldown timer
-        weaponData.cooldownTimer = weaponData.cooldown;
 
         // Expend ALL focus
         if (entityData.currentFocus > 0)
@@ -502,7 +506,6 @@ public class GameManager : MonoBehaviour
         {
             // Despawn
             EntityDespawn(entityData);
-
             return;
         }
 
@@ -511,7 +514,7 @@ public class GameManager : MonoBehaviour
 
         print($"{entityData.name} took {amount} damage.");
 
-        entityData.entityRenderer.TakeHit(source.tileData.position);
+        entityData.entityRenderer.TakeHit(source.Position);
     }
 
     private void EntityDespawn(EntityData entityData)
@@ -537,6 +540,12 @@ public class GameManager : MonoBehaviour
             if (worldData.enemies.Remove(enemy)) { }
             else if (worldData.neutrals.Remove(enemy)) { }
 
+            // Deselect targets if possible
+            if (enemy.ai != null)
+            {
+                IntentManager.instance.Clear(enemy.ai.threatenedPositions.ToArray());
+            }
+
             // Spawn if available
             var loot = enemy.weaponLoot;
             if (loot != null)
@@ -559,20 +568,6 @@ public class GameManager : MonoBehaviour
 
             // Trigger event
             GameEvents.instance.TriggerOnEntityResourceChange(entityData);
-        }
-    }
-
-    private void EntityReduceCooldowns(EntityData entityData)
-    {
-        foreach (var weapon in entityData.weapons)
-        {
-            if (weapon == null)
-                continue;
-
-            if (weapon.cooldownTimer > 0)
-            {
-                weapon.cooldownTimer--;
-            }
         }
     }
 

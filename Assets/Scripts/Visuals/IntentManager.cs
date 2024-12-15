@@ -5,10 +5,12 @@ using UnityEngine.Tilemaps;
 
 public class IntentManager : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] private Tilemap intentTilemap;
+    [SerializeField] private Tilemap wallTilemap;
     [SerializeField] private AnimatedTile intentTile;
 
-    Dictionary<Vector3Int, int> intentTable;
+    private Dictionary<Vector3Int, int> intentTable;
 
     public static IntentManager instance;
     private void Awake()
@@ -29,6 +31,10 @@ public class IntentManager : MonoBehaviour
     {
         foreach (var position in positions)
         {
+            // If wall exists here, don't mark
+            if (wallTilemap.HasTile(position))
+                continue;
+
             if (intentTable.ContainsKey(position))
             {
                 intentTable[position]++;
@@ -45,6 +51,10 @@ public class IntentManager : MonoBehaviour
     {
         foreach (var position in positions)
         {
+            // If wall exists here, don't mark
+            if (wallTilemap.HasTile(position))
+                continue;
+
             if (intentTable.ContainsKey(position))
             {
                 intentTable[position]--;

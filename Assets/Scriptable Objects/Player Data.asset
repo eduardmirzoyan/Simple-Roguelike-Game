@@ -15,9 +15,6 @@ MonoBehaviour:
   name: Player
   maxHealth: 100
   currentHealth: 100
-  maxPosture: 3
-  currentPosture: 3
-  canRecoverPosture: 0
   maxFocus: 2
   currentFocus: 0
   weapons:

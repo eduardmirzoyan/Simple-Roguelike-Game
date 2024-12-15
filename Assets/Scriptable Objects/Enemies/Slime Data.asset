@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Slime
   maxHealth: 30
   currentHealth: 30
-  maxFocus: 2
+  maxFocus: 1
   currentFocus: 0
   weapons:
   - {fileID: 11400000, guid: 90fefd2789ae22a4ba4a217742f834f2, type: 2}

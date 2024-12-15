@@ -230,6 +230,8 @@ MonoBehaviour:
   - {fileID: -722747181, guid: 9d6fd3692aac45f4ab76c8dee55c54d7, type: 3}
   - {fileID: 101042517, guid: 9d6fd3692aac45f4ab76c8dee55c54d7, type: 3}
   - {fileID: -827463159, guid: 9d6fd3692aac45f4ab76c8dee55c54d7, type: 3}
+  entityData: {fileID: 0}
+  focusIcons: []
 --- !u!1 &3568924036084259234
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,6 +243,7 @@ GameObject:
   - component: {fileID: 5820939276847974680}
   - component: {fileID: 2805674833301325237}
   - component: {fileID: 5815497465189736313}
+  - component: {fileID: 7817712822466770745}
   m_Layer: 0
   m_Name: Intent Icon
   m_TagString: Untagged
@@ -296,7 +299,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 63f11e690d78d8d4ea3c7f8d1a14c47c, type: 3}
+  m_Sprite: {fileID: -722747181, guid: 9d6fd3692aac45f4ab76c8dee55c54d7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -306,6 +309,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7817712822466770745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3568924036084259234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 1, b: 1, a: 1}
+  m_EffectDistance: {x: 0.02, y: 0.02}
+  m_UseGraphicAlpha: 1
 --- !u!1 &5533522608984808671
 GameObject:
   m_ObjectHideFlags: 0

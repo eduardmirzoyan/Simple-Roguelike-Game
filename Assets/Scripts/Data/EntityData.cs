@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public abstract class EntityData : ScriptableObject
@@ -31,6 +32,11 @@ public abstract class EntityData : ScriptableObject
     public EntityRenderer entityRenderer;
     public TileData tileData;
     public WorldData worldData;
+
+    public Vector3Int Position
+    {
+        get { return tileData.position; }
+    }
 
     public virtual void Initialize(TileData tileData, WorldData worldData)
     {

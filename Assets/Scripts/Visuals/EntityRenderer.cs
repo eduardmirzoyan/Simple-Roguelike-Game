@@ -98,7 +98,7 @@ public class EntityRenderer : MonoBehaviour
 
         currentAnimation = "Hit";
 
-        Vector3 direction = entityData.tileData.position - sourcePosition;
+        Vector3 direction = entityData.Position - sourcePosition;
         direction.Normalize();
 
         Vector3 knockbackOffset = transform.position + direction * hitStrength;
@@ -173,7 +173,7 @@ public class EntityRenderer : MonoBehaviour
 
     public IEnumerator MeleeOverTime(TileData tileData, float duration)
     {
-        Vector3 direction = tileData.position - entityData.tileData.position;
+        Vector3 direction = tileData.position - entityData.Position;
         direction.Normalize();
 
         FaceDirection(Vector3Int.RoundToInt(direction));

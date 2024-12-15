@@ -69,7 +69,7 @@ public class PreviewManager : MonoBehaviour
             return;
 
         // If in range of valid tiles (and not itself)
-        if (validPositions.Contains(currentPosition) && currentPosition != entityData.tileData.position)
+        if (validPositions.Contains(currentPosition) && currentPosition != entityData.Position)
         {
             var weapon = entityData.weapons[weaponIndex];
             DrawPreviewArea(currentPosition, entityData, weapon);
@@ -93,7 +93,7 @@ public class PreviewManager : MonoBehaviour
         int range = entityData.weapons[weaponIndex].range;
         var tiles = entityData.worldData.tiles;
 
-        Vector3Int startPosition = entityData.tileData.position;
+        Vector3Int startPosition = entityData.Position;
         foreach (var position in entityData.vision.visiblePositions.Keys)
         {
             // If in range
@@ -133,7 +133,7 @@ public class PreviewManager : MonoBehaviour
 
         // Draw to target
         lineRenderer.enabled = true;
-        DrawLine(entityData.tileData.position, position);
+        DrawLine(entityData.Position, position);
 
         // Preview damage at targets
         ShowDamagePreview(entityData, weaponData, targets);
@@ -169,18 +169,13 @@ public class PreviewManager : MonoBehaviour
             if (targetData != null)
             {
                 var worldPositon = selectTilemap.GetCellCenterWorld(position);
-                var damage = weaponData.CalculateDamage(entityData, targetData);
+                var trueRange = weaponData.GetTrueDamageRange(entityData);
 
-                Color color;
-                if (damage < weaponData.damage)
-                    color = Color.gray;
-                else if (damage > weaponData.damage)
-                    color = Color.yellow;
-                else
-                    color = Color.white;
+                // Check if empowered
+                Color color = trueRange.x > weaponData.damageRange.x ? Color.yellow : Color.white;
 
                 var preview = Instantiate(damagePreviewPrefab, worldPositon, Quaternion.identity).GetComponent<DamagePreview>();
-                preview.Initialize(damage, color);
+                preview.Initialize(trueRange, color);
 
                 previews.Add(preview);
             }

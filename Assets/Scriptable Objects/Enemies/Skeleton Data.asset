@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Skeleton
   maxHealth: 50
   currentHealth: 50
-  maxFocus: 2
+  maxFocus: 1
   currentFocus: 0
   weapons:
   - {fileID: 11400000, guid: 7e9d5746731981e49b0ef67cbee8a4c1, type: 2}

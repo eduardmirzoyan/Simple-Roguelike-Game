@@ -17,4 +17,5 @@ MonoBehaviour:
   possibleEnemies:
   - {fileID: 11400000, guid: 148bfd8a3d4db564b953d762f70009bb, type: 2}
   - {fileID: 11400000, guid: e4fb52bcca24eb94f896454aa42b8f46, type: 2}
+  - {fileID: 11400000, guid: 1e07c65546915524d965dbafe62ddb27, type: 2}
   weaponGenerator: {fileID: 11400000, guid: 5e2129d30c47b62469502a5f72da5619, type: 2}

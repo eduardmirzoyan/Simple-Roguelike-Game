@@ -15,8 +15,9 @@ public class EntityUI : MonoBehaviour
     [SerializeField] private Sprite inactiveFocusIcon;
     [SerializeField] private Sprite[] intentIcons;
 
-    private List<Image> focusIcons;
-    private EntityData entityData;
+    [Header("Debug")]
+    [SerializeField, ReadOnly] private EntityData entityData;
+    [SerializeField, ReadOnly] private List<Image> focusIcons;
 
     private void Start()
     {

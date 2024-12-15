@@ -12,7 +12,6 @@ public class WeaponTooltipUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI weaponType;
     [SerializeField] private TextMeshProUGUI weaponDamage;
     [SerializeField] private TextMeshProUGUI weaponRange;
-    [SerializeField] private TextMeshProUGUI weaponCooldown;
     [SerializeField] private TextMeshProUGUI weaponDescription;
     [SerializeField] private TextMeshProUGUI weaponInstructions;
 
@@ -31,9 +30,8 @@ public class WeaponTooltipUI : MonoBehaviour
 
         weaponName.text = weaponData.name;
         weaponType.text = weaponData.range > 1 ? "Ranged Weapon" : "Melee Weapon";
-        weaponDamage.text = weaponData.damage + "";
-        weaponRange.text = weaponData.range + "";
-        weaponCooldown.text = weaponData.cooldown - 1 + "";
+        weaponDamage.text = $"{weaponData.damageRange.x}-{weaponData.damageRange.y}";
+        weaponRange.text = $"{weaponData.range}";
         weaponDescription.text = weaponData.description;
         weaponInstructions.text = instructions;
 

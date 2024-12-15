@@ -35,7 +35,7 @@ public class Vision
         visiblePositions = new Dictionary<Vector3Int, bool>();
 
         // Find visible tiles
-        fov.Compute(entityData.tileData.position, viewDistance);
+        fov.Compute(entityData.Position, viewDistance);
     }
 
     private int GetDistance(int x, int y)

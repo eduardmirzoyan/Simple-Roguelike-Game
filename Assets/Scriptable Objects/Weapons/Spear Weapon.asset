@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40eada583f4a259489031011101af68a, type: 3}
-  m_Name: Sword Weapon
+  m_Script: {fileID: 11500000, guid: e06297bd2a63c6a49bd00d954936193d, type: 3}
+  m_Name: Spear Weapon
   m_EditorClassIdentifier: 
-  name: Sword
+  name: Spear
   description: '1+ <sprite name="Focus"/>: 2x DMG
 
     Max <sprite name="Focus"/>:
     AoE'
-  sprite: {fileID: 21300000, guid: 5572383ed7ad72845abdafbe34286690, type: 3}
+  sprite: {fileID: 21300000, guid: aa03d9dd36a91cf40b72483674605952, type: 3}
   damageRange: {x: 4, y: 6}
   range: 1
   renderer: {fileID: 0}
